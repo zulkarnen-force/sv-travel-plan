@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Trip Pack">
+	<rect width="512" height="512" rx="112" fill="#beff50" />
+	<rect x="128" y="188" width="256" height="204" rx="40" fill="none" stroke="#14140f" stroke-width="26" />
+	<path d="M208 188v-28a48 48 0 0 1 48-48h0a48 48 0 0 1 48 48v28" fill="none" stroke="#14140f" stroke-width="26" stroke-linecap="round" />
+	<path d="M224 236v108M288 236v108" stroke="#14140f" stroke-width="26" stroke-linecap="round" />
+</svg>

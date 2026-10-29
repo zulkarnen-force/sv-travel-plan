@@ -7,3 +7,8 @@ bun.lockb
 
 # Miscellaneous
 /static/
+
+# Product and design documents are authored separately.
+AGENTS.md
+DESIGN.md
+prd.md
