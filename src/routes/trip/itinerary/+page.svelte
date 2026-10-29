@@ -398,7 +398,7 @@
 										Mau ngapain duluan?
 									</h2>
 									<p class="mt-1 text-sm leading-relaxed text-on-lime/70">
-										Kuil, kereta, atau makan malam — apa aja. Detailnya bisa ditambah nanti.
+										Ngopi, kereta, atau langsung makan. Apa aja. Detailnya, nanti.
 									</p>
 									<form class="mt-4 space-y-2" onsubmit={quickAdd}>
 										<Input

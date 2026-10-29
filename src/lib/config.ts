@@ -11,13 +11,13 @@ export interface PurposeMeta {
 }
 
 export const PURPOSES: PurposeMeta[] = [
-	{ id: 'general', label: 'Umum', hint: 'Sedikit dari semuanya' },
-	{ id: 'leisure', label: 'Santai', hint: 'Hari santai, tanpa jadwal' },
-	{ id: 'beach', label: 'Pantai', hint: 'Matahari, pasir, dan baju renang' },
-	{ id: 'business', label: 'Bisnis', hint: 'Meeting dan baju rapi' },
-	{ id: 'hiking', label: 'Naik gunung', hint: 'Jalur dan baju berlapis' },
-	{ id: 'city', label: 'Jalan-jalan kota', hint: 'Jalan kaki dan sepatu nyaman' },
-	{ id: 'family', label: 'Keluarga', hint: 'Anak kecil, baju ekstra' }
+	{ id: 'general', label: 'Umum', hint: 'Belum fix mau ngapain? Bawa yang versatile' },
+	{ id: 'leisure', label: 'Santai', hint: 'Ngikutin mood aja' },
+	{ id: 'beach', label: 'Pantai', hint: 'Gas ke pantai, jangan lupa sunscreen' },
+	{ id: 'business', label: 'Bisnis', hint: 'Meeting lancar, outfit juga harus rapi' },
+	{ id: 'hiking', label: 'Naik gunung', hint: 'Dingin di puncak, siapin baju berlapis' },
+	{ id: 'city', label: 'Jalan-jalan kota', hint: 'Banyak jalan kaki, sepatu harus nyaman' },
+	{ id: 'family', label: 'Keluarga', hint: 'Bawa anak? Baju cadangan wajib ada' }
 ];
 
 export function purposeLabel(id: PurposeId): string {
