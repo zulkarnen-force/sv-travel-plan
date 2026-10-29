@@ -81,7 +81,7 @@
 	bind:open
 	title={expense ? 'Ubah pengeluaran' : 'Tambah pengeluaran'}
 	description={expense
-		? 'Cuma rencana belanja — ubah harga, dasar hitungan, atau jumlah.'
+		? 'Cuma rencana belanja — ubah budget, dasar hitungan, atau jumlah.'
 		: 'Ini rencana biaya, bukan uang yang udah keluar.'}
 >
 	{#snippet footer()}
@@ -135,7 +135,7 @@
 		</div>
 
 		<div>
-			<Label for="expense-price">Harga satuan ({currencySymbol(trip.currency)})</Label>
+			<Label for="expense-price">Budget satuan ({currencySymbol(trip.currency)})</Label>
 			<Input
 				id="expense-price"
 				bind:value={priceInput}
@@ -149,7 +149,7 @@
 			/>
 			{#if priceInput.trim() !== '' && !validPrice}
 				<p id="expense-price-error" class="mt-1 text-xs text-critical">
-					Isi harga 0 atau lebih ya.
+					Isi budget 0 atau lebih ya.
 				</p>
 			{/if}
 		</div>
@@ -189,7 +189,7 @@
 
 		<div class="flex items-center justify-between gap-3 rounded-[18px] bg-surface px-4 py-3">
 			<span class="text-xs text-muted">
-				{validPrice ? `${formatMoney(price ?? 0, trip.currency)} × ${quantity}` : 'Tambah harga'}
+				{validPrice ? `${formatMoney(price ?? 0, trip.currency)} × ${quantity}` : 'Tambah budget'}
 			</span>
 			<span class="text-lg font-medium text-ink tabular-nums">
 				{validPrice ? formatMoney(total, trip.currency) : '—'}

@@ -208,7 +208,7 @@
 					</span>
 				</button>
 				{#if missing > 0}
-					<Badge variant="warning">{missing} belum ada harga</Badge>
+					<Badge variant="warning">{missing} belum ada budget</Badge>
 				{/if}
 			</div>
 
@@ -307,7 +307,7 @@
 			<Card variant="surface" padding="lg">
 				<p class="eyebrow">Per kategori</p>
 				<p class="mt-2 text-sm leading-relaxed text-muted">
-					Tambah harga buat lihat pembagiannya. Yang belum ada harga dihitung nol.
+					Tambah budget buat lihat pembagiannya. Yang belum ada budget dihitung nol.
 				</p>
 			</Card>
 		{/if}
@@ -337,7 +337,7 @@
 					</span>
 					<p class="mt-3 text-sm font-medium text-ink">Belum ada pengeluaran</p>
 					<p class="mt-1 text-xs leading-relaxed text-muted">
-						Mulai dari Hotel, Makan & minum, dan Laundry. Tambah harga kalau udah tahu.
+						Mulai dari Hotel, Makan & minum, dan Laundry. Tambah budget kalau udah tahu.
 					</p>
 					<div class="mt-3 flex flex-col gap-2">
 						<Button variant="secondary" fullWidth onclick={addStarters}>Tambah baris awal</Button>

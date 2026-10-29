@@ -130,7 +130,7 @@ describe('expenseCalculation', () => {
 	});
 
 	it('prompts for a missing price', () => {
-		expect(expenseCalculation(expense({ unitPrice: null }), 'USD')).toBe('Tambah harga');
+		expect(expenseCalculation(expense({ unitPrice: null }), 'USD')).toBe('Tambah budget');
 	});
 });
 

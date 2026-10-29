@@ -67,7 +67,7 @@ export function autoQuantity(basis: ExpenseBasis, tripOrDays: Trip | number): nu
 }
 
 export function expenseCalculation(expense: Expense, currency: string): string {
-	if (expense.unitPrice === null) return 'Tambah harga';
+	if (expense.unitPrice === null) return 'Tambah budget';
 	const unit = formatMoney(expense.unitPrice, currency);
 	if (expense.basis === 'once') {
 		return expense.quantity === 1 ? `${unit} sekali` : `${unit} × ${expense.quantity} sekaligus`;
@@ -126,7 +126,7 @@ export function buildInsights(
 	if (missing > 0) {
 		insights.push({
 			id: 'missing',
-			text: `${missing} pengeluaran belum dikasih harga.`,
+			text: `${missing} pengeluaran belum dikasih budget.`,
 			tone: 'warning'
 		});
 	}
