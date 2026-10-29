@@ -11,17 +11,17 @@ export interface PurposeMeta {
 }
 
 export const PURPOSES: PurposeMeta[] = [
-	{ id: 'general', label: 'General', hint: 'A bit of everything' },
-	{ id: 'leisure', label: 'Leisure', hint: 'Slow days, no schedule' },
-	{ id: 'beach', label: 'Beach', hint: 'Sun, sand and swimwear' },
-	{ id: 'business', label: 'Business', hint: 'Meetings and smart clothes' },
-	{ id: 'hiking', label: 'Hiking & outdoors', hint: 'Trails and layers' },
-	{ id: 'city', label: 'City break', hint: 'Walking and good shoes' },
-	{ id: 'family', label: 'Family', hint: 'Little people, extra outfits' }
+	{ id: 'general', label: 'Umum', hint: 'Sedikit dari semuanya' },
+	{ id: 'leisure', label: 'Santai', hint: 'Hari santai, tanpa jadwal' },
+	{ id: 'beach', label: 'Pantai', hint: 'Matahari, pasir, dan baju renang' },
+	{ id: 'business', label: 'Bisnis', hint: 'Meeting dan baju rapi' },
+	{ id: 'hiking', label: 'Naik gunung', hint: 'Jalur dan baju berlapis' },
+	{ id: 'city', label: 'Jalan-jalan kota', hint: 'Jalan kaki dan sepatu nyaman' },
+	{ id: 'family', label: 'Keluarga', hint: 'Anak kecil, baju ekstra' }
 ];
 
 export function purposeLabel(id: PurposeId): string {
-	return PURPOSES.find((purpose) => purpose.id === id)?.label ?? 'General';
+	return PURPOSES.find((purpose) => purpose.id === id)?.label ?? 'Umum';
 }
 
 /* ------------------------------------------------------------------ */
@@ -30,10 +30,10 @@ export function purposeLabel(id: PurposeId): string {
 
 export const ENTRY_TYPES: { id: EntryType; label: string }[] = [
 	{ id: 'transport', label: 'Transport' },
-	{ id: 'stay', label: 'Stay' },
-	{ id: 'food', label: 'Food' },
-	{ id: 'activity', label: 'Activity' },
-	{ id: 'other', label: 'Other' }
+	{ id: 'stay', label: 'Penginapan' },
+	{ id: 'food', label: 'Makan' },
+	{ id: 'activity', label: 'Kegiatan' },
+	{ id: 'other', label: 'Lainnya' }
 ];
 
 /* ------------------------------------------------------------------ */
@@ -55,49 +55,49 @@ type PurposeRule =
 const cappedAt = (value: number, cap: number) => Math.min(value, cap);
 
 export const DURATION_RULES: DurationRule[] = [
-	{ name: 'Underwear', quantity: (days) => cappedAt(days, 7) },
-	{ name: 'Socks', quantity: (days) => cappedAt(days, 7) },
-	{ name: 'T-shirts or tops', quantity: (days) => cappedAt(days, 7) },
+	{ name: 'Celana dalam', quantity: (days) => cappedAt(days, 7) },
+	{ name: 'Kaus kaki', quantity: (days) => cappedAt(days, 7) },
+	{ name: 'Kaos atau atasan', quantity: (days) => cappedAt(days, 7) },
 	{
-		name: 'Bottoms (pants, shorts, skirt)',
+		name: 'Bawahan (celana, celana pendek, rok)',
 		quantity: (days) => Math.min(5, Math.max(2, Math.ceil(days / 2)))
 	},
-	{ name: 'Sleepwear', quantity: (days) => (days <= 4 ? 1 : 2) },
-	{ name: 'Light jacket', quantity: () => 1 }
+	{ name: 'Baju tidur', quantity: (days) => (days <= 4 ? 1 : 2) },
+	{ name: 'Jaket tipis', quantity: () => 1 }
 ];
 
 export const PURPOSE_RULES: Record<PurposeId, PurposeRule[]> = {
 	general: [],
 	leisure: [],
 	beach: [
-		{ type: 'add', name: 'Swimwear', quantity: () => 2 },
-		{ type: 'add', name: 'Beach cover-up', quantity: () => 1 },
-		{ type: 'add', name: 'Sandals', quantity: () => 1 },
-		{ type: 'add', name: 'Hat', quantity: () => 1 }
+		{ type: 'add', name: 'Baju renang', quantity: () => 2 },
+		{ type: 'add', name: 'Baju pantai', quantity: () => 1 },
+		{ type: 'add', name: 'Sandal', quantity: () => 1 },
+		{ type: 'add', name: 'Topi', quantity: () => 1 }
 	],
 	business: [
 		{
 			type: 'add',
-			name: 'Dress shirts or blouses',
+			name: 'Kemeja atau blus',
 			quantity: (days) => Math.min(5, Math.max(1, days))
 		},
-		{ type: 'add', name: 'Formal shoes', quantity: () => 1 },
+		{ type: 'add', name: 'Sepatu formal', quantity: () => 1 },
 		{ type: 'add', name: 'Blazer', quantity: () => 1 },
-		{ type: 'add', name: 'Belt', quantity: () => 1 }
+		{ type: 'add', name: 'Ikat pinggang', quantity: () => 1 }
 	],
 	hiking: [
-		{ type: 'replace', from: 'T-shirts or tops', to: 'Quick-dry tops' },
-		{ type: 'add', name: 'Hiking shoes', quantity: () => 1 },
-		{ type: 'add', name: 'Rain jacket', quantity: () => 1 },
-		{ type: 'add', name: 'Extra socks', quantity: () => 2 }
+		{ type: 'replace', from: 'Kaos atau atasan', to: 'Kaos cepat kering' },
+		{ type: 'add', name: 'Sepatu gunung', quantity: () => 1 },
+		{ type: 'add', name: 'Jas hujan', quantity: () => 1 },
+		{ type: 'add', name: 'Kaus kaki ekstra', quantity: () => 2 }
 	],
 	city: [
-		{ type: 'add', name: 'Comfortable walking shoes', quantity: () => 1 },
-		{ type: 'add', name: 'Smart-casual outfit', quantity: () => 1 }
+		{ type: 'add', name: 'Sepatu jalan yang nyaman', quantity: () => 1 },
+		{ type: 'add', name: 'Baju kasual rapi', quantity: () => 1 }
 	],
 	family: [
-		{ type: 'add', name: 'Spare outfits for children', quantity: () => 2 },
-		{ type: 'boost', name: 'T-shirts or tops', amount: 2 }
+		{ type: 'add', name: 'Baju cadangan buat anak', quantity: () => 2 },
+		{ type: 'boost', name: 'Kaos atau atasan', amount: 2 }
 	]
 };
 
@@ -130,7 +130,7 @@ export function buildSuggestions(days: number, purpose: PurposeId): Suggestion[]
 }
 
 export const LAUNDRY_TIP =
-	'Pack for 7 days and plan a laundry stop. The list is capped so you can travel lighter.';
+	'Bawa kebutuhan 7 hari dan sisipin waktu buat laundry. Daftarnya dibatasi biar bawaanmu lebih ringan.';
 
 /* ------------------------------------------------------------------ */
 /* Budget                                                              */
@@ -144,15 +144,15 @@ export interface ExpenseCategoryMeta {
 
 export const EXPENSE_CATEGORIES: ExpenseCategoryMeta[] = [
 	{ id: 'hotel', label: 'Hotel', color: 'var(--chart-1)' },
-	{ id: 'eat', label: 'Eat and drink', color: 'var(--chart-2)' },
+	{ id: 'eat', label: 'Makan & minum', color: 'var(--chart-2)' },
 	{ id: 'laundry', label: 'Laundry', color: 'var(--chart-3)' },
 	{ id: 'transport', label: 'Transport', color: 'var(--chart-4)' },
-	{ id: 'activities', label: 'Activities', color: 'var(--chart-5)' },
-	{ id: 'other', label: 'Other', color: 'var(--chart-6)' }
+	{ id: 'activities', label: 'Aktivitas', color: 'var(--chart-5)' },
+	{ id: 'other', label: 'Lainnya', color: 'var(--chart-6)' }
 ];
 
 export function expenseCategoryLabel(id: ExpenseCategoryId): string {
-	return EXPENSE_CATEGORIES.find((category) => category.id === id)?.label ?? 'Other';
+	return EXPENSE_CATEGORIES.find((category) => category.id === id)?.label ?? 'Lainnya';
 }
 
 export function expenseCategoryColor(id: ExpenseCategoryId): string {
@@ -160,14 +160,14 @@ export function expenseCategoryColor(id: ExpenseCategoryId): string {
 }
 
 export const EXPENSE_BASES: { id: ExpenseBasis; label: string; short: string }[] = [
-	{ id: 'night', label: 'Per night', short: 'nights' },
-	{ id: 'day', label: 'Per day', short: 'days' },
-	{ id: 'item', label: 'Per item', short: 'items' },
-	{ id: 'once', label: 'One-time', short: 'once' }
+	{ id: 'night', label: 'Per malam', short: 'malam' },
+	{ id: 'day', label: 'Per hari', short: 'hari' },
+	{ id: 'item', label: 'Per item', short: 'item' },
+	{ id: 'once', label: 'Sekali', short: 'sekali' }
 ];
 
 export function expenseBasisLabel(id: ExpenseBasis): string {
-	return EXPENSE_BASES.find((basis) => basis.id === id)?.label ?? 'One-time';
+	return EXPENSE_BASES.find((basis) => basis.id === id)?.label ?? 'Sekali';
 }
 
 export interface StarterExpenseMeta {
@@ -179,7 +179,7 @@ export interface StarterExpenseMeta {
 
 export const STARTER_EXPENSES: StarterExpenseMeta[] = [
 	{ name: 'Hotel', category: 'hotel', basis: 'night' },
-	{ name: 'Eat and drink', category: 'eat', basis: 'day' },
+	{ name: 'Makan & minum', category: 'eat', basis: 'day' },
 	{ name: 'Laundry', category: 'laundry', basis: 'item', onlyIfLong: true }
 ];
 
@@ -286,9 +286,9 @@ const REGION_CURRENCY: Record<string, string> = {
 
 export function detectCurrency(language?: string): string {
 	const tag =
-		language ?? (typeof navigator !== 'undefined' ? navigator.language : undefined) ?? 'en-US';
+		language ?? (typeof navigator !== 'undefined' ? navigator.language : undefined) ?? 'id-ID';
 	const parts = tag.replace('_', '-').split('-');
 	const region = parts.find((part) => part.length === 2 && part === part.toUpperCase());
 	if (region && REGION_CURRENCY[region]) return REGION_CURRENCY[region];
-	return 'USD';
+	return 'IDR';
 }

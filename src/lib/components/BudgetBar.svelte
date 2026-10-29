@@ -30,8 +30,8 @@
 		class="relative h-3 w-full overflow-hidden rounded-full bg-line/60"
 		role="img"
 		aria-label={budget === null
-			? `${formatMoney(planned, currency)} planned, no budget set`
-			: `${formatMoney(planned, currency)} planned of ${formatMoney(budget, currency)} budget`}
+			? `${formatMoney(planned, currency)} direncanain, belum ada budget`
+			: `${formatMoney(planned, currency)} direncanain dari budget ${formatMoney(budget, currency)}`}
 	>
 		<div
 			class={clsx('h-full rounded-full transition-[width] duration-300', fill)}
@@ -42,11 +42,11 @@
 		{/if}
 	</div>
 	<div class="mt-2 flex items-center justify-between gap-3 text-xs text-muted">
-		<span>{formatMoney(planned, currency)} planned</span>
+		<span>{formatMoney(planned, currency)} direncanain</span>
 		{#if budget !== null && budget > 0}
-			<span>{formatPercent(ratio)} of {formatMoney(budget, currency)}</span>
+			<span>{formatPercent(ratio)} dari {formatMoney(budget, currency)}</span>
 		{:else}
-			<span>No budget yet</span>
+			<span>Belum ada budget</span>
 		{/if}
 	</div>
 </div>

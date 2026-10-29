@@ -78,21 +78,21 @@ describe('buildMonthGrid', () => {
 
 describe('formatting', () => {
 	it('formats ranges compactly', () => {
-		expect(formatRange('2026-10-30', '2026-10-30')).toBe('30 Oct');
-		expect(formatRange('2026-10-05', '2026-10-09')).toBe('5 to 9 Oct');
-		expect(formatRange('2026-10-30', '2026-11-02')).toBe('30 Oct to 2 Nov');
-		expect(formatRange('2026-12-28', '2027-01-03')).toBe('28 Dec 2026 to 3 Jan 2027');
+		expect(formatRange('2026-10-30', '2026-10-30')).toBe('30 Okt');
+		expect(formatRange('2026-10-05', '2026-10-09')).toBe('5–9 Okt');
+		expect(formatRange('2026-10-30', '2026-11-02')).toBe('30 Okt – 2 Nov');
+		expect(formatRange('2026-12-28', '2027-01-03')).toBe('28 Des 2026 – 3 Jan 2027');
 	});
 
 	it('formats day labels', () => {
-		expect(formatDayChip('2026-10-30')).toBe('Fri 30');
-		expect(formatDayHeading('2026-10-30')).toBe('Fri 30 Oct');
-		expect(formatLongDate('2026-10-30')).toBe('30 Oct 2026');
+		expect(formatDayChip('2026-10-30')).toBe('Jum 30');
+		expect(formatDayHeading('2026-10-30')).toBe('Jum 30 Okt');
+		expect(formatLongDate('2026-10-30')).toBe('30 Okt 2026');
 	});
 
 	it('formats trip length in days and nights', () => {
-		expect(formatLength(1)).toBe('1 day');
-		expect(formatLength(2)).toBe('2 days, 1 night');
-		expect(formatLength(4)).toBe('4 days, 3 nights');
+		expect(formatLength(1)).toBe('1 hari');
+		expect(formatLength(2)).toBe('2 hari, 1 malam');
+		expect(formatLength(4)).toBe('4 hari, 3 malam');
 	});
 });

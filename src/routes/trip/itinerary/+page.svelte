@@ -62,13 +62,13 @@
 	let strip: HTMLDivElement | undefined = $state();
 	let highlightTimer: ReturnType<typeof setTimeout> | null = null;
 
-	const previousLabel = $derived(activeDay > 0 ? `Day ${activeDay}` : 'Day 1');
+	const previousLabel = $derived(activeDay > 0 ? `Hari ${activeDay}` : 'Hari 1');
 	const nextLabel = $derived(
 		activeDay < dates.length - 1
-			? `Day ${activeDay + 2} →`
+			? `Hari ${activeDay + 2} →`
 			: allDaysPlanned
-				? 'All days planned'
-				: 'Back to first empty day'
+				? 'Semua hari udah terisi'
+				: 'Balik ke hari kosong'
 	);
 	const nextDisabled = $derived(activeDay >= dates.length - 1 && allDaysPlanned);
 
@@ -76,26 +76,26 @@
 		actionEntry
 			? [
 					{
-						label: 'Edit',
-						description: 'Change the details',
+						label: 'Ubah',
+						description: 'Ubah detailnya',
 						icon: Pencil,
 						onselect: () => openEdit(actionEntry as ItineraryEntry)
 					},
 					{
-						label: 'Duplicate',
-						description: 'Add a copy to this day',
+						label: 'Duplikat',
+						description: 'Tambah salinan di hari ini',
 						icon: Copy,
 						onselect: () => duplicateEntry(actionEntry as ItineraryEntry)
 					},
 					{
-						label: 'Move to another day',
-						description: 'Including the Unscheduled list',
+						label: 'Pindah ke hari lain',
+						description: 'Termasuk ke daftar Belum terjadwal',
 						icon: CalendarDays,
 						onselect: () => startMove(actionEntry as ItineraryEntry)
 					},
 					{
-						label: 'Delete',
-						description: 'Remove this entry',
+						label: 'Hapus',
+						description: 'Hapus kegiatan ini',
 						icon: Trash2,
 						danger: true,
 						onselect: () => deleteEntry(actionEntry as ItineraryEntry)
@@ -173,7 +173,7 @@
 			focusId = editingEntry.id;
 			app.updateEntry(focusId, input);
 			highlight(focusId);
-			toast.show('Entry updated.');
+			toast.show('Kegiatan udah diupdate');
 		} else {
 			const entry = app.addEntry(input);
 			if (entry) {
@@ -196,7 +196,7 @@
 	function deleteEntry(entry: ItineraryEntry) {
 		const removed = app.deleteEntry(entry.id);
 		if (removed) {
-			toast.show('Entry deleted.', { label: 'Undo', run: () => app.restoreEntry(removed) });
+			toast.show('Kegiatan dihapus', { label: 'Urungkan', run: () => app.restoreEntry(removed) });
 		}
 		if (editingEntry?.id === entry.id) {
 			setTimeout(() => {
@@ -209,7 +209,7 @@
 		const copy = app.duplicateEntry(entry.id);
 		if (copy) {
 			highlight(copy.id);
-			toast.show('Entry duplicated.');
+			toast.show('Kegiatan diduplikat');
 		}
 	}
 
@@ -217,7 +217,9 @@
 		if (!movingEntry) return;
 		const entry = movingEntry;
 		app.moveEntry(entry.id, dayIndex);
-		toast.show(dayIndex === null ? 'Moved to Unscheduled.' : `Moved to Day ${dayIndex + 1}.`);
+		toast.show(
+			dayIndex === null ? 'Dipindah ke Belum terjadwal' : `Dipindah ke Hari ${dayIndex + 1}`
+		);
 		moveOpen = false;
 		setTimeout(() => {
 			movingEntry = null;
@@ -294,7 +296,7 @@
 				bind:this={strip}
 				class="no-scrollbar flex gap-2 overflow-x-auto"
 				role="tablist"
-				aria-label="Trip days"
+				aria-label="Hari trip"
 			>
 				{#each dates as date, index (date)}
 					{@const count = app.entriesForDay(index).length}
@@ -309,7 +311,7 @@
 							: 'flex min-w-16 shrink-0 flex-col items-center rounded-[18px] bg-surface px-3 py-2 text-ink hover:bg-line/50'}
 						onclick={() => changeDay(index)}
 					>
-						<span class="text-[11px] leading-tight font-medium">Day {index + 1}</span>
+						<span class="text-[11px] leading-tight font-medium">Hari {index + 1}</span>
 						<span class="text-[10px] leading-tight opacity-70">{formatDayChip(date)}</span>
 						<span
 							class={count > 0
@@ -326,10 +328,9 @@
 			<Card variant="surface" padding="sm" class="mx-4 mt-3">
 				<div class="flex items-center justify-between gap-3">
 					<div>
-						<p class="eyebrow">Unscheduled</p>
+						<p class="eyebrow">Belum terjadwal</p>
 						<p class="mt-1 text-xs leading-snug text-muted">
-							{unscheduled.length}
-							{unscheduled.length === 1 ? 'entry no longer fits' : 'entries no longer fit'} the trip dates.
+							{unscheduled.length} kegiatan nggak muat lagi di tanggal trip.
 						</p>
 					</div>
 					<Badge variant="warning">{unscheduled.length}</Badge>
@@ -339,13 +340,13 @@
 						<li class="flex items-center gap-2 rounded-xl bg-card px-2 py-1.5">
 							<div class="min-w-0 flex-1">
 								<p class="truncate text-sm text-ink">{entry.title}</p>
-								<p class="text-[11px] text-muted">No day</p>
+								<p class="text-[11px] text-muted">Tanpa hari</p>
 							</div>
-							<Button size="sm" variant="ghost" onclick={() => startMove(entry)}>Move</Button>
+							<Button size="sm" variant="ghost" onclick={() => startMove(entry)}>Pindah</Button>
 							<button
 								type="button"
 								class="grid h-11 w-11 shrink-0 place-items-center rounded-full text-muted transition hover:bg-surface hover:text-critical focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none"
-								aria-label={`Delete ${entry.title}`}
+								aria-label={`Hapus ${entry.title}`}
 								onclick={() => deleteEntry(entry)}
 							>
 								<Trash2 size={16} strokeWidth={1.75} />
@@ -360,7 +361,7 @@
 			<div
 				class="relative"
 				role="region"
-				aria-label="Itinerary day"
+				aria-label="Hari rencana"
 				ontouchstart={onTouchStart}
 				ontouchend={onTouchEnd}
 			>
@@ -368,20 +369,20 @@
 					<div
 						id="day-pane"
 						role="tabpanel"
-						aria-label={`Day ${activeDay + 1} of ${dates.length}`}
+						aria-label={`Hari ${activeDay + 1} dari ${dates.length}`}
 						class="pt-4"
 						in:fly={{ x: prefersReducedMotion.current ? 0 : direction * 18, duration: 180 }}
 					>
 						<header class="flex items-start justify-between gap-3">
 							<div class="min-w-0">
-								<p class="eyebrow">Day {activeDay + 1} of {dates.length}</p>
+								<p class="eyebrow">Hari {activeDay + 1} dari {dates.length}</p>
 								<h1 class="mt-1 text-[26px] leading-tight font-medium tracking-[-0.03em] text-ink">
 									{formatDayHeading(dayDate)}
 								</h1>
 							</div>
 							<Badge variant={entries.length > 0 ? 'surface' : 'outline'}>
 								{entries.length}
-								{entries.length === 1 ? 'plan' : 'plans'}
+								rencana
 							</Badge>
 						</header>
 
@@ -389,29 +390,29 @@
 							{#if tripEmpty && activeDay === 0}
 								<Card variant="lime" padding="lg">
 									<p class="text-[10px] font-medium tracking-[0.1em] text-on-lime/70 uppercase">
-										Day 1
+										Hari 1
 									</p>
 									<h2
 										class="mt-1 text-[24px] leading-tight font-medium tracking-[-0.03em] text-on-lime"
 									>
-										What's the first thing you'll do?
+										Mau ngapain duluan?
 									</h2>
 									<p class="mt-1 text-sm leading-relaxed text-on-lime/70">
-										A temple, a train, dinner — anything. You can add details later.
+										Kuil, kereta, atau makan malam — apa aja. Detailnya bisa ditambah nanti.
 									</p>
 									<form class="mt-4 space-y-2" onsubmit={quickAdd}>
 										<Input
 											bind:value={quickTitle}
-											placeholder="Temple visit"
+											placeholder="Kunjungi candi"
 											maxlength={120}
 											autofocus
-											aria-label="Entry title"
+											aria-label="Judul kegiatan"
 										/>
 										<div class="flex gap-2">
 											<Input
 												type="time"
 												bind:value={quickTime}
-												aria-label="Entry time (optional)"
+												aria-label="Jam kegiatan (opsional)"
 												class="w-32"
 											/>
 											<Button
@@ -420,7 +421,7 @@
 												class="flex-1"
 												disabled={!quickTitle.trim()}
 											>
-												Add entry
+												Tambah kegiatan
 											</Button>
 										</div>
 									</form>
@@ -429,19 +430,19 @@
 										class="mt-2 min-h-11 text-sm text-on-lime underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-on-lime focus-visible:outline-none"
 										onclick={openAdd}
 									>
-										More details
+										Isi detail
 									</button>
 								</Card>
 							{:else if entries.length === 0}
 								<Card variant="surface" padding="lg" class="text-center">
-									<p class="text-sm text-muted">Nothing planned for Day {activeDay + 1} yet.</p>
-									<Button variant="outline" class="mt-3" onclick={openAdd}>Add something</Button>
+									<p class="text-sm text-muted">Belum ada rencana buat Hari {activeDay + 1}.</p>
+									<Button variant="outline" class="mt-3" onclick={openAdd}>Tambah kegiatan</Button>
 								</Card>
 							{:else}
 								<div class="space-y-2">
 									{#each entries as entry, index (entry.id)}
 										{#if hasTimed && !entry.time && (index === 0 || entries[index - 1].time)}
-											<p class="eyebrow pt-2 pb-0.5">Anytime</p>
+											<p class="eyebrow pt-2 pb-0.5">Kapan aja</p>
 										{/if}
 										{@const Icon = ENTRY_ICONS[entry.type]}
 										<article
@@ -483,7 +484,7 @@
 													<button
 														type="button"
 														class="-mt-1 -mr-2 grid h-11 w-11 shrink-0 place-items-center rounded-full text-muted transition hover:bg-card hover:text-ink focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none"
-														aria-label={`Actions for ${entry.title}`}
+														aria-label={`Aksi untuk ${entry.title}`}
 														aria-haspopup="dialog"
 														onclick={() => openActions(entry)}
 													>
@@ -500,14 +501,14 @@
 										class="mt-3 flex items-center justify-between gap-3 rounded-[18px] bg-lime px-4 py-2.5 text-on-lime"
 									>
 										<p class="text-xs leading-snug font-medium text-ink">
-											Day {activeDay + 1} started. Add more, or continue.
+											Hari {activeDay + 1} udah dimulai. Tambah lagi, atau lanjut.
 										</p>
 										<button
 											type="button"
 											class="min-h-11 shrink-0 text-xs font-medium text-on-lime underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-on-lime focus-visible:outline-none"
 											onclick={() => changeDay(activeDay + 1)}
 										>
-											Day {activeDay + 2} →
+											Hari {activeDay + 2} →
 										</button>
 									</div>
 								{/if}
@@ -524,17 +525,17 @@
 						<span
 							class="animate-pulse rounded-full bg-charcoal/90 px-2.5 py-1.5 text-[10px] font-medium tracking-[0.08em] text-cream uppercase"
 						>
-							Swipe <ChevronRight size={11} class="inline" />
+							Geser <ChevronRight size={11} class="inline" />
 						</span>
 					</div>
 					<p class="sr-only">
-						Swipe left or right to change day. You can also use the day buttons.
+						Geser ke kiri atau kanan buat ganti hari. Bisa juga pakai tombol hari.
 					</p>
 				{/if}
 			</div>
 
 			<div class="mt-6">
-				<Button fullWidth size="lg" onclick={openAdd}>Add to Day {activeDay + 1}</Button>
+				<Button fullWidth size="lg" onclick={openAdd}>Tambah ke Hari {activeDay + 1}</Button>
 				<div class="mt-2 grid grid-cols-2 gap-2">
 					<Button
 						variant="secondary"
@@ -560,12 +561,12 @@
 	ondelete={deleteEntry}
 />
 
-<ActionSheet bind:open={actionsOpen} title={actionEntry?.title ?? 'Entry'} items={actionItems} />
+<ActionSheet bind:open={actionsOpen} title={actionEntry?.title ?? 'Kegiatan'} items={actionItems} />
 
 <Drawer
 	bind:open={moveOpen}
-	title="Move to another day"
-	description="Pick where this entry belongs."
+	title="Pindah ke hari lain"
+	description="Pilih hari yang pas buat kegiatan ini."
 >
 	<div class="space-y-1">
 		{#each dates as date, index (date)}
@@ -576,8 +577,8 @@
 				disabled={movingEntry?.dayIndex === index}
 				onclick={() => moveTo(index)}
 			>
-				<span class="text-sm font-medium">Day {index + 1} · {formatDayChip(date)}</span>
-				<span class="text-xs text-muted">{count} planned</span>
+				<span class="text-sm font-medium">Hari {index + 1} · {formatDayChip(date)}</span>
+				<span class="text-xs text-muted">{count} rencana</span>
 			</button>
 		{/each}
 		<button
@@ -586,8 +587,8 @@
 			disabled={movingEntry?.dayIndex === null}
 			onclick={() => moveTo(null)}
 		>
-			<span class="text-sm font-medium">Unscheduled</span>
-			<span class="text-xs text-muted">Holding list</span>
+			<span class="text-sm font-medium">Belum terjadwal</span>
+			<span class="text-xs text-muted">Daftar sementara</span>
 		</button>
 	</div>
 </Drawer>

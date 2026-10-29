@@ -40,7 +40,7 @@
 		viewBox="0 0 100 100"
 		class="h-full w-full"
 		role="group"
-		aria-label="Planned spending by category"
+		aria-label="Rencana belanja per kategori"
 	>
 		<circle
 			cx="50"
@@ -92,7 +92,7 @@
 	<div
 		class="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center"
 	>
-		<span class="text-[10px] font-medium tracking-[0.1em] text-muted uppercase">Planned</span>
+		<span class="text-[10px] font-medium tracking-[0.1em] text-muted uppercase">Rencana</span>
 		<span class="mt-1 text-[22px] leading-none font-medium tracking-[-0.02em] text-ink">
 			{formatMoney(total, currency)}
 		</span>

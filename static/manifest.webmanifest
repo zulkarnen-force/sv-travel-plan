@@ -1,7 +1,7 @@
 {
 	"name": "Trip Pack",
 	"short_name": "Trip Pack",
-	"description": "Plan the trip. Pack right. A private, on-device itinerary, packing list and budget.",
+	"description": "Rencanain trip, bawa yang pas. Itinerary, daftar bawaan, dan budget privat di perangkat kamu.",
 	"start_url": "/",
 	"scope": "/",
 	"display": "standalone",

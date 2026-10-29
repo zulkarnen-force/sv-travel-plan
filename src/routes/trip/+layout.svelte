@@ -26,6 +26,6 @@
 	</div>
 {:else}
 	<div class="grid min-h-dvh place-items-center bg-canvas">
-		<p class="text-sm text-muted">Loading your trip…</p>
+		<p class="text-sm text-muted">Bentar ya, trip kamu lagi dimuat…</p>
 	</div>
 {/if}

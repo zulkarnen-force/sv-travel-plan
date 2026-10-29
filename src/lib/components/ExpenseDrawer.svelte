@@ -79,25 +79,25 @@
 
 <Drawer
 	bind:open
-	title={expense ? 'Edit expense' : 'Add an expense'}
+	title={expense ? 'Ubah pengeluaran' : 'Tambah pengeluaran'}
 	description={expense
-		? 'Planned spending only — change the price, basis or quantity.'
-		: 'A planned cost, not money already spent.'}
+		? 'Cuma rencana belanja — ubah harga, dasar hitungan, atau jumlah.'
+		: 'Ini rencana biaya, bukan uang yang udah keluar.'}
 >
 	{#snippet footer()}
 		<div class="space-y-1">
 			<Button type="submit" form={formId} fullWidth size="lg" disabled={!valid}>
-				{expense ? 'Save changes' : 'Add expense'}
+				{expense ? 'Simpan perubahan' : 'Tambah pengeluaran'}
 			</Button>
 			{#if expense && ondelete}
-				<Button variant="danger" fullWidth onclick={remove}>Delete expense</Button>
+				<Button variant="danger" fullWidth onclick={remove}>Hapus pengeluaran</Button>
 			{/if}
 		</div>
 	{/snippet}
 
 	<form id={formId} class="space-y-4" onsubmit={submit}>
 		<div>
-			<Label for="expense-name">Name</Label>
+			<Label for="expense-name">Nama</Label>
 			<Input
 				id="expense-name"
 				bind:value={name}
@@ -109,8 +109,8 @@
 		</div>
 
 		<div>
-			<Label>Category</Label>
-			<div class="mt-2 grid grid-cols-2 gap-2" role="group" aria-label="Expense category">
+			<Label>Kategori</Label>
+			<div class="mt-2 grid grid-cols-2 gap-2" role="group" aria-label="Kategori pengeluaran">
 				{#each EXPENSE_CATEGORIES as option (option.id)}
 					<button
 						type="button"
@@ -135,7 +135,7 @@
 		</div>
 
 		<div>
-			<Label for="expense-price">Unit price ({trip.currency})</Label>
+			<Label for="expense-price">Harga satuan ({trip.currency})</Label>
 			<Input
 				id="expense-price"
 				bind:value={priceInput}
@@ -149,14 +149,14 @@
 			/>
 			{#if priceInput.trim() !== '' && !validPrice}
 				<p id="expense-price-error" class="mt-1 text-xs text-critical">
-					Enter a price of 0 or more.
+					Isi harga 0 atau lebih ya.
 				</p>
 			{/if}
 		</div>
 
 		<div>
-			<Label>Basis</Label>
-			<div class="mt-2 grid grid-cols-2 gap-2" role="group" aria-label="Expense basis">
+			<Label>Dasar hitungan</Label>
+			<div class="mt-2 grid grid-cols-2 gap-2" role="group" aria-label="Dasar hitungan">
 				{#each EXPENSE_BASES as option (option.id)}
 					<button
 						type="button"
@@ -175,17 +175,21 @@
 
 		<div class="flex items-center justify-between gap-3">
 			<div>
-				<Label>Quantity</Label>
+				<Label>Jumlah</Label>
 				<p class="mt-1 text-[11px] text-muted">
-					{quantityTouched ? 'Set by you' : 'From trip length'}
+					{quantityTouched ? 'Kamu atur sendiri' : 'Otomatis dari lama trip'}
 				</p>
 			</div>
-			<Stepper bind:value={quantity} label="Quantity" onchange={() => (quantityTouched = true)} />
+			<Stepper
+				bind:value={quantity}
+				label={name.trim() || 'pengeluaran'}
+				onchange={() => (quantityTouched = true)}
+			/>
 		</div>
 
 		<div class="flex items-center justify-between gap-3 rounded-[18px] bg-surface px-4 py-3">
 			<span class="text-xs text-muted">
-				{validPrice ? `${formatMoney(price ?? 0, trip.currency)} × ${quantity}` : 'Add a price'}
+				{validPrice ? `${formatMoney(price ?? 0, trip.currency)} × ${quantity}` : 'Tambah harga'}
 			</span>
 			<span class="text-lg font-medium text-ink tabular-nums">
 				{validPrice ? formatMoney(total, trip.currency) : '—'}

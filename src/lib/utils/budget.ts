@@ -1,7 +1,7 @@
 import { EXPENSE_CATEGORIES, type ExpenseCategoryMeta } from '../config';
 import type { Expense, ExpenseBasis, Insight, Tone, Trip } from '../types';
 import { daysBetween, nightsBetween } from './date';
-import { formatMoney, formatPercent, pluralize } from './format';
+import { formatMoney, formatPercent } from './format';
 
 export function expenseTotal(expense: Expense): number {
 	return (expense.unitPrice ?? 0) * expense.quantity;
@@ -67,16 +67,13 @@ export function autoQuantity(basis: ExpenseBasis, tripOrDays: Trip | number): nu
 }
 
 export function expenseCalculation(expense: Expense, currency: string): string {
-	if (expense.unitPrice === null) return 'Add price';
+	if (expense.unitPrice === null) return 'Tambah harga';
 	const unit = formatMoney(expense.unitPrice, currency);
 	if (expense.basis === 'once') {
-		return expense.quantity === 1
-			? `${unit} one-time`
-			: `${unit} × ${expense.quantity} one-time items`;
+		return expense.quantity === 1 ? `${unit} sekali` : `${unit} × ${expense.quantity} sekaligus`;
 	}
-	const singular = expense.basis === 'night' ? 'night' : expense.basis === 'day' ? 'day' : 'item';
-	const label = expense.quantity === 1 ? singular : `${singular}s`;
-	return `${unit} × ${expense.quantity} ${label}`;
+	const singular = expense.basis === 'night' ? 'malam' : expense.basis === 'day' ? 'hari' : 'item';
+	return `${unit} × ${expense.quantity} ${singular}`;
 }
 
 export type RingTone = 'neutral' | 'critical' | 'warning' | 'primary' | 'success';
@@ -106,22 +103,22 @@ export function buildInsights(
 	if (trip.budgetTotal === null) {
 		insights.push({
 			id: 'no-budget',
-			text: 'Set a total budget to see how the plan compares.',
+			text: 'Atur total budget dulu biar kelihatan muat atau nggak.',
 			tone: 'neutral'
 		});
 	} else if (over && trip.budgetTotal !== null) {
 		const overBy = planned - trip.budgetTotal;
 		insights.push({
 			id: 'over',
-			text: `You are ${money(overBy)} over budget.${
-				biggest ? ` Largest category: ${biggest.label}.` : ''
+			text: `Kamu kelebihan ${money(overBy)} dari budget.${
+				biggest ? ` Kategori terbesar: ${biggest.label}.` : ''
 			}`,
 			tone: 'critical'
 		});
 	} else if (trip.budgetTotal !== null) {
 		insights.push({
 			id: 'under',
-			text: `${money(trip.budgetTotal - planned)} left to cover extras.`,
+			text: `Masih ada ${money(trip.budgetTotal - planned)} buat biaya ekstra.`,
 			tone: 'success'
 		});
 	}
@@ -129,7 +126,7 @@ export function buildInsights(
 	if (missing > 0) {
 		insights.push({
 			id: 'missing',
-			text: `${pluralize(missing, 'expense')} still ${missing === 1 ? 'needs' : 'need'} a price.`,
+			text: `${missing} pengeluaran belum dikasih harga.`,
 			tone: 'warning'
 		});
 	}
@@ -137,9 +134,9 @@ export function buildInsights(
 	if (biggest && planned > 0 && !over) {
 		insights.push({
 			id: 'biggest',
-			text: `${biggest.label} is your biggest cost at ${formatPercent(
+			text: `${biggest.label} jadi biaya terbesar, ${formatPercent(
 				biggest.value / planned
-			)} of the plan.`,
+			)} dari total rencana.`,
 			tone: 'neutral'
 		});
 	}
@@ -147,7 +144,7 @@ export function buildInsights(
 	if (planned > 0) {
 		insights.push({
 			id: 'daily',
-			text: `Planned spending averages ${money(planned / Math.max(1, days))} a day.`,
+			text: `Rata-rata rencana belanja ${money(planned / Math.max(1, days))} per hari.`,
 			tone: 'neutral'
 		});
 	}

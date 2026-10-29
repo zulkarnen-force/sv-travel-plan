@@ -1,5 +1,5 @@
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+const WEEKDAYS = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
 
 export const MS_PER_DAY = 86_400_000;
 
@@ -104,14 +104,14 @@ export function formatRange(startDate: string, endDate: string): string {
 	}
 
 	if (sameMonth) {
-		return `${start.getDate()} to ${end.getDate()} ${endMonth}`;
+		return `${start.getDate()}–${end.getDate()} ${endMonth}`;
 	}
 
 	if (sameYear) {
-		return `${start.getDate()} ${startMonth} to ${end.getDate()} ${endMonth}`;
+		return `${start.getDate()} ${startMonth} – ${end.getDate()} ${endMonth}`;
 	}
 
-	return `${start.getDate()} ${startMonth} ${start.getFullYear()} to ${end.getDate()} ${endMonth} ${end.getFullYear()}`;
+	return `${start.getDate()} ${startMonth} ${start.getFullYear()} – ${end.getDate()} ${endMonth} ${end.getFullYear()}`;
 }
 
 export function formatDayChip(iso: string): string {
@@ -131,8 +131,8 @@ export function formatLongDate(iso: string): string {
 
 export function formatLength(days: number): string {
 	const nights = Math.max(0, days - 1);
-	if (days === 1) return '1 day';
-	return `${days} days, ${nights} ${nights === 1 ? 'night' : 'nights'}`;
+	if (days === 1) return '1 hari';
+	return `${days} hari, ${nights} malam`;
 }
 
 export function weekdayShort(iso: string): string {

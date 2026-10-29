@@ -11,7 +11,7 @@
 		label?: string;
 	}
 
-	let { packed, total, size = 72, stroke = 8, label = 'Progress' }: Props = $props();
+	let { packed, total, size = 72, stroke = 8, label = 'Progres' }: Props = $props();
 
 	const tone = $derived(ringTone(packed, total));
 	const ratio = $derived(total > 0 ? Math.min(1, packed / total) : 0);
@@ -36,7 +36,7 @@
 	style:width="{size}px"
 	style:height="{size}px"
 	role="img"
-	aria-label={`${label}, ${packed} of ${total} packed`}
+	aria-label={`${label}, ${packed} dari ${total} udah dibawa`}
 >
 	<svg width={size} height={size} viewBox="0 0 {size} {size}" aria-hidden="true" class="-rotate-90">
 		<circle

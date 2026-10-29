@@ -123,7 +123,7 @@
 				<button
 					type="button"
 					class="-mt-1 -mr-2 grid h-11 w-11 shrink-0 place-items-center rounded-full text-muted transition hover:bg-surface hover:text-ink focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none"
-					aria-label="Close"
+					aria-label="Tutup"
 					onclick={close}
 				>
 					<X size={20} strokeWidth={1.75} />

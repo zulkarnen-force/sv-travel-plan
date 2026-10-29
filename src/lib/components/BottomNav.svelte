@@ -5,8 +5,8 @@
 	import clsx from 'clsx';
 
 	const tabs = [
-		{ href: '/trip/itinerary', label: 'Itinerary', icon: CalendarDays },
-		{ href: '/trip/preps', label: 'Preps', icon: Backpack },
+		{ href: '/trip/itinerary', label: 'Rencana', icon: CalendarDays },
+		{ href: '/trip/preps', label: 'Bawaan', icon: Backpack },
 		{ href: '/trip/budget', label: 'Budget', icon: Wallet }
 	] as const;
 
@@ -20,7 +20,7 @@
 <nav
 	class="shrink-0 border-t border-line bg-canvas/95 px-3 pt-2 backdrop-blur"
 	style:padding-bottom="calc(0.5rem + env(safe-area-inset-bottom))"
-	aria-label="Trip sections"
+	aria-label="Bagian trip"
 >
 	<div class="grid grid-cols-3 gap-1">
 		{#each tabs as tab (tab.href)}

@@ -38,17 +38,17 @@
 	const suggestionCount = $derived(days > 0 ? buildSuggestions(days, purpose).length : 0);
 
 	const heading = $derived(
-		step === 1 ? 'Name your trip.' : step === 2 ? 'When are you going?' : 'What kind of trip?'
+		step === 1 ? 'Namanya trip apa?' : step === 2 ? 'Kapan berangkatnya?' : 'Trip-nya buat apa?'
 	);
 	const subheading = $derived(
 		step === 1
-			? 'One calm place for the plan, the packing and the budget.'
+			? 'Satu tempat buat rencana, bawaan, dan budget kamu.'
 			: step === 2
-				? 'Tap a start date, then an end date. Single-day trips are fine.'
-				: 'This shapes the clothing list. Everything stays editable.'
+				? 'Ketuk tanggal mulai, lalu tanggal selesai. Trip sehari juga boleh.'
+				: 'Ini ngaruh ke daftar baju. Semua masih bisa diedit.'
 	);
 
-	const examples = ['Bali with friends', 'Oslo work week', 'Dolomites hike'];
+	const examples = ['Bali sama temen', 'Kerja di Oslo', 'Naik gunung di Dolomites'];
 
 	$effect(() => {
 		if (app.trip) goto(resolve('/trip/itinerary'), { replace: true });
@@ -106,7 +106,7 @@
 							onclick={back}
 						>
 							<ArrowLeft size={16} strokeWidth={2} />
-							Back
+							Kembali
 						</button>
 					{/if}
 				</div>
@@ -118,10 +118,10 @@
 						></span>
 					{/each}
 				</div>
-				<p class="sr-only">Step {step} of 3</p>
+				<p class="sr-only">Langkah {step} dari 3</p>
 
 				<p class="mt-5 text-[10px] font-medium tracking-[0.1em] text-on-lime/70 uppercase">
-					Step {step} of 3
+					Langkah {step} dari 3
 				</p>
 				<h1 class="mt-2 text-[34px] leading-[1.02] font-medium tracking-[-0.03em] text-on-lime">
 					{heading}
@@ -134,13 +134,13 @@
 			<main class="px-4 pt-4 pb-8">
 				{#if step === 1}
 					<Card variant="white" padding="lg">
-						<Label for="trip-name">Trip name</Label>
+						<Label for="trip-name">Nama trip</Label>
 						<Input
 							id="trip-name"
 							bind:value={name}
 							maxlength={60}
 							autocomplete="off"
-							placeholder="Bali with friends"
+							placeholder="Bali sama temen"
 							autofocus
 							class="mt-2"
 							aria-describedby={name.length > 0 && !nameValid
@@ -149,17 +149,15 @@
 							aria-invalid={name.length > 0 && !nameValid}
 						/>
 						<div id="name-help" class="mt-2 flex justify-between text-xs text-muted">
-							<span>1–60 characters</span>
+							<span>1–60 karakter</span>
 							<span>{name.trim().length}/60</span>
 						</div>
 						{#if name.length > 0 && !nameValid}
-							<p id="name-error" class="mt-1 text-xs text-critical">
-								Keep it between 1 and 60 characters.
-							</p>
+							<p id="name-error" class="mt-1 text-xs text-critical">Isi 1 sampai 60 karakter ya.</p>
 						{/if}
 
 						<div class="mt-5 border-t border-line pt-4">
-							<p class="eyebrow">Need a nudge?</p>
+							<p class="eyebrow">Bingung? Cobain ini</p>
 							<div class="mt-2 flex flex-wrap gap-2">
 								{#each examples as example (example)}
 									<button
@@ -186,37 +184,38 @@
 						</div>
 					{:else}
 						<p class="mt-3 text-center text-xs text-muted">
-							{startDate ? 'Now pick an end date.' : 'Pick a start date, then an end date.'}
+							{startDate
+								? 'Sekarang pilih tanggal selesai.'
+								: 'Pilih tanggal mulai, terus tanggal selesai.'}
 						</p>
 					{/if}
 
 					{#if startDate && isPast(startDate)}
 						<p class="mt-3 px-1 text-xs leading-relaxed text-muted">
-							This trip has already started — that's fine. You can log it as you go.
+							Trip-nya udah mulai — nggak apa-apa. Kamu bisa catat sambil jalan.
 						</p>
 					{/if}
 				{:else}
 					<PurposeChips bind:selected={purpose} />
 
 					<div class="mt-5">
-						<Label for="purpose-note">Note (optional)</Label>
+						<Label for="purpose-note">Catatan (opsional)</Label>
 						<Textarea
 							id="purpose-note"
 							bind:value={purposeNote}
 							maxlength={240}
-							placeholder="Anything that shapes the packing list?"
+							placeholder="Ada hal yang ngaruh ke bawaan?"
 							class="mt-2"
 						/>
 					</div>
 
 					<Card variant="surface" class="mt-4">
-						<p class="eyebrow">Your starting list</p>
+						<p class="eyebrow">Daftar awal kamu</p>
 						<p class="mt-2 text-sm leading-relaxed text-muted">
-							We'll start with <span class="font-medium text-ink"
-								>{suggestionCount} clothing items</span
+							Kami mulai dengan <span class="font-medium text-ink">{suggestionCount} item baju</span
 							>
-							for {formatLength(days)} of {purposeLabel(purpose).toLowerCase()}. Add, edit or check
-							anything later.
+							buat trip {purposeLabel(purpose)} selama {formatLength(days)}. Bisa ditambah, diedit,
+							atau dicentang nanti.
 						</p>
 					</Card>
 				{/if}
@@ -228,7 +227,7 @@
 			style:padding-bottom="calc(0.75rem + env(safe-area-inset-bottom))"
 		>
 			<Button fullWidth size="lg" onclick={next} disabled={!canContinue}>
-				{step === 3 ? 'Create trip' : 'Continue'}
+				{step === 3 ? 'Buat trip' : 'Lanjut'}
 			</Button>
 			{#if step === 3}
 				<button
@@ -236,7 +235,7 @@
 					class="mt-1 min-h-11 w-full text-sm text-muted transition hover:text-ink focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none"
 					onclick={finish}
 				>
-					Skip this step
+					Lewati dulu
 				</button>
 			{/if}
 		</div>

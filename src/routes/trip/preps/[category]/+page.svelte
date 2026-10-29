@@ -34,14 +34,14 @@
 		actionItem
 			? [
 					{
-						label: 'Edit item',
-						description: 'Name or quantity',
+						label: 'Ubah item',
+						description: 'Nama atau jumlah',
 						icon: Pencil,
 						onselect: () => openEdit(actionItem as PrepItem)
 					},
 					{
-						label: 'Delete item',
-						description: 'You can undo for 5 seconds',
+						label: 'Hapus item',
+						description: 'Bisa diurungkan dalam 5 detik',
 						icon: Trash2,
 						danger: true,
 						onselect: () => deleteItem(actionItem as PrepItem)
@@ -74,7 +74,7 @@
 		if (editingItem) {
 			const id = editingItem.id;
 			app.updatePrepItem(id, { name, quantity });
-			toast.show('Item updated.');
+			toast.show('Item udah diupdate');
 		} else {
 			app.addPrepItem(category.id, name, quantity);
 		}
@@ -86,7 +86,7 @@
 	function deleteItem(item: PrepItem) {
 		const removed = app.deletePrepItem(item.id);
 		if (removed) {
-			toast.show('Item deleted.', { label: 'Undo', run: () => app.restorePrepItem(removed) });
+			toast.show('Item dihapus', { label: 'Urungkan', run: () => app.restorePrepItem(removed) });
 		}
 		if (editingItem?.id === item.id) {
 			setTimeout(() => {
@@ -104,17 +104,17 @@
 				class="inline-flex min-h-11 items-center gap-1 rounded-full pr-3 text-sm text-muted transition hover:text-ink focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none"
 			>
 				<ArrowLeft size={16} strokeWidth={2} />
-				Preps
+				Bawaan
 			</a>
 
 			<div class="mt-2 flex items-center gap-4">
 				<div class="min-w-0 flex-1">
-					<p class="eyebrow">Category</p>
+					<p class="eyebrow">Kategori</p>
 					<h1 class="mt-1 text-[28px] leading-tight font-medium tracking-[-0.03em] text-ink">
 						{category.name}
 					</h1>
 					<p class="mt-1 text-sm text-muted" aria-live="polite">
-						{packedCount} of {items.length} packed
+						{packedCount} dari {items.length} udah dibawa
 					</p>
 				</div>
 				<ProgressRing
@@ -131,14 +131,14 @@
 			{#if items.length === 0}
 				<Card variant="surface" padding="lg" class="text-center">
 					<p class="text-sm text-muted">
-						Nothing here yet. Add the first thing you don't want to forget.
+						Belum ada apa-apa. Tambah barang pertama yang nggak mau kamu lupain.
 					</p>
-					<Button class="mt-3" onclick={openAdd}>Add your first item</Button>
+					<Button class="mt-3" onclick={openAdd}>Tambah item pertama</Button>
 				</Card>
 			{:else}
 				{#if unpacked.length === 0}
 					<Card variant="lime" padding="sm" class="mb-2 text-center">
-						<p class="text-sm font-medium text-on-lime">Everything is packed. Nice work.</p>
+						<p class="text-sm font-medium text-on-lime">Semua udah dibawa. Mantap.</p>
 					</Card>
 				{:else}
 					<Card variant="surface" padding="none">
@@ -150,7 +150,7 @@
 											type="button"
 											role="checkbox"
 											aria-checked="false"
-											aria-label={`Mark ${item.name} as packed`}
+											aria-label={`Tandai ${item.name} udah dibawa`}
 											class="mt-0.5 grid h-11 w-11 shrink-0 place-items-center rounded-full transition hover:bg-card focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none"
 											onclick={() => app.togglePacked(item.id)}
 										>
@@ -167,9 +167,8 @@
 												>{item.name}</span
 											>
 											<span class="mt-0.5 block text-[11px] text-muted">
-												{item.quantity}
-												{item.quantity === 1 ? 'unit' : 'units'}{item.source === 'manual'
-													? ' · added by you'
+												{item.quantity} unit{item.source === 'manual'
+													? ' · kamu tambah sendiri'
 													: ''}
 											</span>
 										</button>
@@ -184,7 +183,7 @@
 										</button>
 									</div>
 									<div class="flex items-center justify-end gap-2 pb-3 pl-12">
-										<span class="text-[11px] text-muted">Qty</span>
+										<span class="text-[11px] text-muted">Jumlah</span>
 										<Stepper
 											value={item.quantity}
 											label={item.name}
@@ -208,7 +207,7 @@
 							<span class="grid h-7 w-7 place-items-center rounded-full bg-success/15 text-success">
 								<Check size={14} strokeWidth={2.4} />
 							</span>
-							<span class="flex-1 text-sm font-medium">Packed ({packedCount})</span>
+							<span class="flex-1 text-sm font-medium">Udah dibawa ({packedCount})</span>
 							<ChevronDown
 								size={18}
 								strokeWidth={1.75}
@@ -224,7 +223,7 @@
 											type="button"
 											role="checkbox"
 											aria-checked="true"
-											aria-label={`Mark ${item.name} as unpacked`}
+											aria-label={`Tandai ${item.name} belum dibawa`}
 											class="grid h-11 w-11 shrink-0 place-items-center rounded-full transition hover:bg-card focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none"
 											onclick={() => app.togglePacked(item.id)}
 										>
@@ -245,7 +244,7 @@
 										<button
 											type="button"
 											class="grid h-11 w-11 shrink-0 place-items-center rounded-full text-muted transition hover:bg-card hover:text-ink focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none"
-											aria-label={`Actions for ${item.name}`}
+											aria-label={`Aksi untuk ${item.name}`}
 											aria-haspopup="dialog"
 											onclick={() => openActions(item)}
 										>
@@ -261,7 +260,7 @@
 		</div>
 
 		<div class="sticky bottom-0 mt-5 border-t border-line bg-canvas/95 px-4 py-3 backdrop-blur">
-			<Button fullWidth size="lg" onclick={openAdd}>Add item</Button>
+			<Button fullWidth size="lg" onclick={openAdd}>Tambah item</Button>
 		</div>
 	</div>
 {/if}

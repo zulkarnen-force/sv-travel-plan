@@ -32,7 +32,7 @@
 			<button
 				type="button"
 				class="grid h-11 w-11 shrink-0 place-items-center rounded-full text-cream/70 transition hover:bg-white/10 hover:text-cream focus-visible:ring-2 focus-visible:ring-lime focus-visible:outline-none"
-				aria-label="Dismiss notification"
+				aria-label="Tutup notifikasi"
 				onclick={() => toast.dismiss(item.id)}
 			>
 				<X size={16} strokeWidth={1.75} />

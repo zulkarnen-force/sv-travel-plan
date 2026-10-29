@@ -61,65 +61,63 @@
 
 <Drawer
 	bind:open
-	title={entry ? 'Edit entry' : `Add to Day ${dayIndex + 1}`}
-	description={entry
-		? 'Change the plan for this day.'
-		: 'A title is enough — add details if they help.'}
+	title={entry ? 'Ubah kegiatan' : `Tambah ke Hari ${dayIndex + 1}`}
+	description={entry ? 'Ubah detail rencana ini.' : 'Judul aja cukup — tambah detail kalau perlu.'}
 >
 	{#snippet footer()}
 		<div class="space-y-1">
 			<Button type="submit" form={formId} fullWidth size="lg" disabled={!valid}>
-				{entry ? 'Save changes' : 'Add entry'}
+				{entry ? 'Simpan perubahan' : 'Tambah kegiatan'}
 			</Button>
 			{#if entry && ondelete}
-				<Button variant="danger" fullWidth onclick={remove}>Delete entry</Button>
+				<Button variant="danger" fullWidth onclick={remove}>Hapus kegiatan</Button>
 			{/if}
 		</div>
 	{/snippet}
 
 	<form id={formId} class="space-y-4" onsubmit={submit}>
 		<div>
-			<Label for="entry-title">Title</Label>
+			<Label for="entry-title">Judul</Label>
 			<Input
 				id="entry-title"
 				bind:value={title}
 				maxlength={120}
-				placeholder="Temple visit"
+				placeholder="Kunjungi candi"
 				autofocus
 				class="mt-2"
 			/>
 		</div>
 
 		<div>
-			<Label for="entry-time">Time (optional)</Label>
+			<Label for="entry-time">Jam (opsional)</Label>
 			<Input id="entry-time" type="time" bind:value={time} class="mt-2" />
 		</div>
 
 		<div>
-			<Label for="entry-place">Place (optional)</Label>
+			<Label for="entry-place">Tempat (opsional)</Label>
 			<Input
 				id="entry-place"
 				bind:value={place}
 				maxlength={160}
-				placeholder="Uluwatu Temple"
+				placeholder="Candi Borobudur"
 				class="mt-2"
 			/>
 		</div>
 
 		<div>
-			<Label for="entry-notes">Notes (optional)</Label>
+			<Label for="entry-notes">Catatan (opsional)</Label>
 			<Textarea
 				id="entry-notes"
 				bind:value={notes}
 				maxlength={600}
-				placeholder="Book tickets the day before"
+				placeholder="Pesan tiket sehari sebelumnya"
 				class="mt-2"
 			/>
 		</div>
 
 		<div>
-			<Label>Type</Label>
-			<div class="mt-2 grid grid-cols-3 gap-2" role="group" aria-label="Entry type">
+			<Label>Jenis</Label>
+			<div class="mt-2 grid grid-cols-3 gap-2" role="group" aria-label="Jenis kegiatan">
 				{#each ENTRY_TYPES as option (option.id)}
 					{@const Icon = ENTRY_ICONS[option.id]}
 					<button

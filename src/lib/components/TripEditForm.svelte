@@ -69,7 +69,7 @@
 
 <form class="space-y-5" onsubmit={submit}>
 	<div>
-		<Label for="edit-trip-name">Trip name</Label>
+		<Label for="edit-trip-name">Nama trip</Label>
 		<Input
 			id="edit-trip-name"
 			bind:value={name}
@@ -79,13 +79,13 @@
 			class="mt-2"
 		/>
 		<div class="mt-1.5 flex justify-between text-[11px] text-muted">
-			<span>1–60 characters</span>
+			<span>1–60 karakter</span>
 			<span>{name.trim().length}/60</span>
 		</div>
 	</div>
 
 	<div>
-		<Label>Dates</Label>
+		<Label>Tanggal</Label>
 		<div class="mt-2">
 			<RangeCalendar bind:start={startDate} bind:end={endDate} />
 		</div>
@@ -98,33 +98,33 @@
 				role="status"
 			>
 				<span class="font-medium">{formatLength(days)}</span>
-				{#if days > 60}<span>Maximum 60 days</span>{/if}
+				{#if days > 60}<span>Maksimal 60 hari</span>{/if}
 			</div>
 		{/if}
 	</div>
 
 	<div>
-		<Label>Purpose</Label>
+		<Label>Tujuan</Label>
 		<div class="mt-2">
 			<PurposeChips bind:selected={purpose} />
 		</div>
 	</div>
 
 	<div>
-		<Label for="edit-trip-note">Note (optional)</Label>
+		<Label for="edit-trip-note">Catatan (opsional)</Label>
 		<Textarea
 			id="edit-trip-note"
 			bind:value={purposeNote}
 			maxlength={240}
-			placeholder="Anything that shapes the packing list?"
+			placeholder="Ada hal yang ngaruh ke bawaan?"
 			class="mt-2"
 		/>
 	</div>
 
 	<p class="text-xs leading-relaxed text-muted">
-		If dates shrink, entries on days that no longer exist are kept in Unscheduled. Packing
-		suggestions only change when you choose to update them.
+		Kalau tanggalnya dipendekin, kegiatan di hari yang udah nggak ada bakal disimpan di Belum
+		terjadwal. Saran bawaan cuma berubah kalau kamu pilih buat update.
 	</p>
 
-	<Button type="submit" fullWidth size="lg" disabled={!valid}>Save changes</Button>
+	<Button type="submit" fullWidth size="lg" disabled={!valid}>Simpan perubahan</Button>
 </form>

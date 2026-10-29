@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { ENTRY_TYPE_IDS, EXPENSE_BASIS_IDS, EXPENSE_CATEGORY_IDS, PURPOSE_IDS } from './types';
 
-const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Use a YYYY-MM-DD date');
+const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Pakai format tanggal YYYY-MM-DD');
 
 export const tripSchema = z.object({
 	id: z.string().min(1),

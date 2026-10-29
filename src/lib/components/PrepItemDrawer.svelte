@@ -43,39 +43,39 @@
 
 <Drawer
 	bind:open
-	title={item ? 'Edit item' : 'Add an item'}
+	title={item ? 'Ubah item' : 'Tambah item'}
 	description={item
-		? 'Change the name or how many you are bringing.'
-		: 'Progress counts items, not units. A jacket with quantity 2 is still one item.'}
+		? 'Ubah nama atau jumlah yang mau kamu bawa.'
+		: 'Progres ngitung item, bukan unit. Jaket dengan jumlah 2 tetap dihitung satu item.'}
 >
 	{#snippet footer()}
 		<div class="space-y-1">
 			<Button type="submit" form={formId} fullWidth size="lg" disabled={!valid}>
-				{item ? 'Save changes' : 'Add item'}
+				{item ? 'Simpan perubahan' : 'Tambah item'}
 			</Button>
 			{#if item && ondelete}
-				<Button variant="danger" fullWidth onclick={remove}>Delete item</Button>
+				<Button variant="danger" fullWidth onclick={remove}>Hapus item</Button>
 			{/if}
 		</div>
 	{/snippet}
 
 	<form id={formId} class="space-y-4" onsubmit={submit}>
 		<div>
-			<Label for="prep-item-name">Name</Label>
+			<Label for="prep-item-name">Nama</Label>
 			<Input
 				id="prep-item-name"
 				bind:value={name}
 				maxlength={120}
-				placeholder="Jacket"
+				placeholder="Jaket"
 				autofocus
 				class="mt-2"
 			/>
 		</div>
 
 		<div>
-			<Label>Quantity</Label>
+			<Label>Jumlah</Label>
 			<div class="mt-2">
-				<Stepper bind:value={quantity} label="Quantity" />
+				<Stepper bind:value={quantity} label={name.trim() || 'item'} />
 			</div>
 		</div>
 	</form>

@@ -92,13 +92,13 @@
 		const value = trimmed === '' ? null : Number(trimmed.replace(',', '.'));
 		app.setBudgetTotal(value);
 		budgetOpen = false;
-		toast.show(value === null ? 'Budget cleared.' : 'Budget updated.');
+		toast.show(value === null ? 'Budget dihapus' : 'Budget udah diupdate');
 	}
 
 	function clearBudget() {
 		app.setBudgetTotal(null);
 		budgetOpen = false;
-		toast.show('Budget cleared.');
+		toast.show('Budget dihapus');
 	}
 
 	function openAddExpense() {
@@ -114,7 +114,7 @@
 	function saveExpense(input: ExpenseInput) {
 		if (editingExpense) {
 			app.updateExpense(editingExpense.id, input);
-			toast.show('Expense updated.');
+			toast.show('Pengeluaran udah diupdate');
 		} else {
 			app.addExpense(input);
 		}
@@ -126,7 +126,10 @@
 	function deleteExpense(expense: Expense) {
 		const removed = app.deleteExpense(expense.id);
 		if (removed) {
-			toast.show('Expense deleted.', { label: 'Undo', run: () => app.restoreExpense(removed) });
+			toast.show('Pengeluaran dihapus', {
+				label: 'Urungkan',
+				run: () => app.restoreExpense(removed)
+			});
 		}
 		if (editingExpense?.id === expense.id) {
 			setTimeout(() => {
@@ -137,7 +140,7 @@
 
 	function addStarters() {
 		const added = app.addStarterRows();
-		toast.show(added > 0 ? `${added} starter rows added.` : 'Starter rows are already there.');
+		toast.show(added > 0 ? `${added} baris awal ditambah` : 'Baris awalnya udah ada');
 	}
 </script>
 
@@ -147,11 +150,11 @@
 			<div>
 				<p class="eyebrow">Budget</p>
 				<h1 class="mt-1 text-[28px] leading-tight font-medium tracking-[-0.03em] text-ink">
-					Will it fit?
+					Masih muat nggak?
 				</h1>
 			</div>
 			<label class="shrink-0">
-				<span class="sr-only">Currency</span>
+				<span class="sr-only">Mata uang</span>
 				<select
 					class="min-h-11 rounded-full border border-line bg-card px-3 text-xs font-medium text-ink focus:border-ink focus:ring-2 focus:ring-lime/60 focus:outline-none"
 					value={trip.currency}
@@ -175,25 +178,25 @@
 					<span
 						class="mt-1 flex items-center gap-2 text-[28px] leading-none font-medium tracking-[-0.03em] text-ink"
 					>
-						{budget !== null ? formatMoney(budget, trip.currency) : 'Set a budget'}
+						{budget !== null ? formatMoney(budget, trip.currency) : 'Atur budget'}
 						<Pencil size={15} strokeWidth={1.75} class="text-muted" />
 					</span>
 				</button>
 				{#if missing > 0}
-					<Badge variant="warning">{missing} need price</Badge>
+					<Badge variant="warning">{missing} belum ada harga</Badge>
 				{/if}
 			</div>
 
 			<div class="mt-4 grid grid-cols-2 gap-3 border-t border-line pt-3">
 				<div>
-					<p class="eyebrow">Planned</p>
+					<p class="eyebrow">Rencana</p>
 					<p class="mt-1 text-lg font-medium text-ink tabular-nums">
 						{formatMoney(planned, trip.currency)}
 					</p>
 				</div>
 				<div>
 					<p class="eyebrow">
-						{remaining !== null && remaining < 0 ? 'Over by' : 'Remaining'}
+						{remaining !== null && remaining < 0 ? 'Kelebihan' : 'Sisa'}
 					</p>
 					<p
 						class={remaining !== null && remaining < 0
@@ -229,14 +232,14 @@
 		{#if planned > 0}
 			<Card variant="surface" padding="lg">
 				<div class="flex items-center justify-between gap-3">
-					<p class="eyebrow">By category</p>
+					<p class="eyebrow">Per kategori</p>
 					{#if filter}
 						<button
 							type="button"
 							class="min-h-11 rounded-full px-3 text-xs font-medium text-ink underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none"
 							onclick={() => (filter = null)}
 						>
-							Clear filter
+							Hapus filter
 						</button>
 					{/if}
 				</div>
@@ -277,23 +280,23 @@
 			</Card>
 		{:else}
 			<Card variant="surface" padding="lg">
-				<p class="eyebrow">By category</p>
+				<p class="eyebrow">Per kategori</p>
 				<p class="mt-2 text-sm leading-relaxed text-muted">
-					Add prices to see the split. Unpriced rows still count as zero.
+					Tambah harga buat lihat pembagiannya. Yang belum ada harga dihitung nol.
 				</p>
 			</Card>
 		{/if}
 
 		<section class="space-y-3">
 			<div class="flex items-center justify-between gap-3">
-				<h2 class="text-[20px] font-medium tracking-[-0.02em] text-ink">Expenses</h2>
+				<h2 class="text-[20px] font-medium tracking-[-0.02em] text-ink">Pengeluaran</h2>
 				{#if filter}
 					<Badge variant="surface">
 						{filterLabel}
 						<button
 							type="button"
 							class="-my-2 -mr-1 grid h-11 w-11 place-items-center rounded-full hover:bg-line/50 focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none"
-							aria-label="Clear category filter"
+							aria-label="Hapus filter kategori"
 							onclick={() => (filter = null)}
 						>
 							<X size={12} strokeWidth={2.5} />
@@ -307,24 +310,24 @@
 					<span class="mx-auto grid h-11 w-11 place-items-center rounded-full bg-card text-ink">
 						<Wallet size={20} strokeWidth={1.75} />
 					</span>
-					<p class="mt-3 text-sm font-medium text-ink">No expenses yet.</p>
+					<p class="mt-3 text-sm font-medium text-ink">Belum ada pengeluaran</p>
 					<p class="mt-1 text-xs leading-relaxed text-muted">
-						Start with Hotel, Eat and drink, and Laundry. Add prices as you know them.
+						Mulai dari Hotel, Makan & minum, dan Laundry. Tambah harga kalau udah tahu.
 					</p>
 					<div class="mt-3 flex flex-col gap-2">
-						<Button variant="secondary" fullWidth onclick={addStarters}>Add starter rows</Button>
-						<Button fullWidth onclick={openAddExpense}>Add expense</Button>
+						<Button variant="secondary" fullWidth onclick={addStarters}>Tambah baris awal</Button>
+						<Button fullWidth onclick={openAddExpense}>Tambah pengeluaran</Button>
 					</div>
 				</Card>
 			{:else if groups.length === 0}
 				<Card variant="surface" padding="lg" class="text-center">
-					<p class="text-sm text-muted">No expenses in {filterLabel}.</p>
+					<p class="text-sm text-muted">Belum ada pengeluaran di {filterLabel}.</p>
 					<button
 						type="button"
 						class="mt-2 min-h-11 text-sm font-medium text-ink underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none"
 						onclick={() => (filter = null)}
 					>
-						Show all expenses
+						Lihat semua pengeluaran
 					</button>
 				</Card>
 			{:else}
@@ -377,22 +380,22 @@
 		<div
 			class="sticky bottom-0 -mx-4 mt-6 border-t border-line bg-canvas/95 px-4 py-3 backdrop-blur"
 		>
-			<Button fullWidth size="lg" onclick={openAddExpense}>Add expense</Button>
+			<Button fullWidth size="lg" onclick={openAddExpense}>Tambah pengeluaran</Button>
 		</div>
 	</div>
 
 	<Drawer
 		bind:open={budgetOpen}
 		title="Total budget"
-		description="A rough number is fine. Planned spending is compared with this amount."
+		description="Angka kasar juga nggak apa-apa. Rencana belanja bakal dibandingin sama jumlah ini."
 	>
 		{#snippet footer()}
 			<div class="space-y-1">
 				<Button type="submit" form="budget-form" fullWidth size="lg" disabled={!budgetValid}>
-					Save budget
+					Simpan budget
 				</Button>
 				{#if budget !== null}
-					<Button variant="ghost" fullWidth onclick={clearBudget}>Clear budget</Button>
+					<Button variant="ghost" fullWidth onclick={clearBudget}>Hapus budget</Button>
 				{/if}
 			</div>
 		{/snippet}
@@ -416,10 +419,10 @@
 				aria-describedby={!budgetValid ? 'budget-error budget-help' : 'budget-help'}
 			/>
 			{#if !budgetValid}
-				<p id="budget-error" class="mt-1 text-xs text-critical">Enter a number of 0 or more.</p>
+				<p id="budget-error" class="mt-1 text-xs text-critical">Isi angka 0 atau lebih ya.</p>
 			{/if}
 			<p id="budget-help" class="mt-2 text-xs leading-relaxed text-muted">
-				Leave it empty to clear the budget. Nothing is converted between currencies.
+				Kosongin buat hapus budget. Nggak ada konversi antar mata uang.
 			</p>
 		</form>
 	</Drawer>

@@ -12,6 +12,11 @@ describe('formatMoney', () => {
 		expect(formatMoney(1000, 'KRW', 'en-US')).toBe('₩1,000');
 	});
 
+	it('formats rupiah the way the guide asks for', () => {
+		expect(formatMoney(25000, 'IDR')).toBe('Rp25.000');
+		expect(formatMoney(1500000, 'IDR')).toBe('Rp1.500.000');
+	});
+
 	it('falls back to a readable string for unknown currencies', () => {
 		expect(formatMoney(12.5, 'ZZZ', 'en-US')).toContain('12.50');
 	});
@@ -28,7 +33,7 @@ describe('formatPercent', () => {
 describe('formatQuantity', () => {
 	it('formats whole numbers', () => {
 		expect(formatQuantity(2.4)).toBe('2');
-		expect(formatQuantity(1000)).toBe('1,000');
+		expect(formatQuantity(1000)).toBe('1.000');
 	});
 });
 

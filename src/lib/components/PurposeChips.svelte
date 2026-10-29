@@ -10,7 +10,7 @@
 	let { selected = $bindable('general') }: Props = $props();
 </script>
 
-<div class="grid grid-cols-2 gap-2" role="group" aria-label="Trip purpose">
+<div class="grid grid-cols-2 gap-2" role="group" aria-label="Tujuan trip">
 	{#each PURPOSES as purpose (purpose.id)}
 		<button
 			type="button"

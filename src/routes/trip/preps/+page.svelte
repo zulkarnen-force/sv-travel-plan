@@ -21,23 +21,23 @@
 	function applySuggestions() {
 		const result = app.applySuggestions();
 		if (result.added === 0 && result.updated === 0) {
-			toast.show('Suggestions are already up to date.');
+			toast.show('Saran udah paling baru');
 			return;
 		}
 		const parts = [];
-		if (result.added > 0) parts.push(`${result.added} added`);
-		if (result.updated > 0) parts.push(`${result.updated} updated`);
-		toast.show(`Packing list updated: ${parts.join(', ')}.`);
+		if (result.added > 0) parts.push(`${result.added} ditambah`);
+		if (result.updated > 0) parts.push(`${result.updated} diupdate`);
+		toast.show(`Daftar bawaan diupdate: ${parts.join(', ')}`);
 	}
 
 	function addLaundry() {
 		const added = app.addLaundryExpense();
 		if (!added) {
-			toast.show('Laundry is already in your budget.');
+			toast.show('Laundry udah ada di budget kamu');
 			return;
 		}
-		toast.show('Laundry added to Budget.', {
-			label: 'Open',
+		toast.show('Laundry ditambah ke budget', {
+			label: 'Buka',
 			run: () => goto(resolve('/trip/budget'))
 		});
 	}
@@ -46,12 +46,12 @@
 {#if trip}
 	<div class="space-y-4 px-4 pt-4 pb-8">
 		<header>
-			<p class="eyebrow">Preps</p>
+			<p class="eyebrow">Bawaan</p>
 			<h1 class="mt-1 text-[28px] leading-tight font-medium tracking-[-0.03em] text-ink">
-				Never forget a thing
+				Nggak ada yang ketinggalan
 			</h1>
 			<p class="mt-1 text-sm text-muted">
-				{packedItems} of {totalItems} packed
+				{packedItems} dari {totalItems} udah dibawa
 			</p>
 		</header>
 
@@ -62,12 +62,13 @@
 						<Sparkles size={17} strokeWidth={1.75} />
 					</span>
 					<div class="min-w-0 flex-1">
-						<p class="text-sm leading-snug font-medium text-on-lime">Trip details changed</p>
+						<p class="text-sm leading-snug font-medium text-on-lime">Detail trip berubah</p>
 						<p class="mt-1 text-xs leading-relaxed text-on-lime/70">
-							Update quantities and add new suggestions. Items you edited or checked are left alone.
+							Perbarui jumlah dan tambah saran baru. Item yang udah kamu edit atau centang nggak
+							diubah.
 						</p>
 						<Button variant="dark" size="sm" class="mt-3" onclick={applySuggestions}>
-							Update suggestions
+							Perbarui saran
 						</Button>
 					</div>
 				</div>
@@ -92,7 +93,9 @@
 						<span class="block text-[17px] leading-tight font-medium text-ink">{category.name}</span
 						>
 						<span class="mt-0.5 block text-xs text-muted">
-							{items.length === 0 ? 'Add your first item' : `${packed} of ${items.length} packed`}
+							{items.length === 0
+								? 'Tambah item pertama'
+								: `${packed} dari ${items.length} udah dibawa`}
 						</span>
 					</span>
 					<ProgressRing {packed} total={items.length} size={64} label={category.name} />
@@ -102,14 +105,14 @@
 
 			<div
 				class="flex items-center gap-3 rounded-[28px] border border-dashed border-line p-4"
-				aria-label="Add category, a follow-up feature"
+				aria-label="Tambah kategori, fitur lanjutan"
 			>
 				<span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-surface text-muted">
 					<Plus size={19} strokeWidth={1.75} />
 				</span>
 				<span class="min-w-0 flex-1">
-					<span class="block text-[15px] font-medium text-ink">Add category</span>
-					<span class="text-xs text-muted">Toiletries, documents, electronics</span>
+					<span class="block text-[15px] font-medium text-ink">Tambah kategori</span>
+					<span class="text-xs text-muted">Perlengkapan mandi, dokumen, elektronik</span>
 				</span>
 				<Badge variant="outline">P1</Badge>
 			</div>
@@ -117,7 +120,7 @@
 
 		{#if days > 7}
 			<Card variant="surface" padding="md">
-				<p class="eyebrow">Laundry stop</p>
+				<p class="eyebrow">Laundry</p>
 				<p class="mt-1.5 text-sm leading-relaxed text-muted">{LAUNDRY_TIP}</p>
 				{#if hasLaundry}
 					<button
@@ -125,11 +128,11 @@
 						class="mt-2 min-h-11 text-sm font-medium text-ink underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none"
 						onclick={() => goto(resolve('/trip/budget'))}
 					>
-						Laundry is in your budget →
+						Laundry udah di budget →
 					</button>
 				{:else}
 					<Button variant="outline" size="sm" class="mt-3" onclick={addLaundry}>
-						Add Laundry to Budget
+						Tambah ke budget
 					</Button>
 				{/if}
 			</Card>

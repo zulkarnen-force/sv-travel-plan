@@ -119,18 +119,18 @@ describe('autoQuantity', () => {
 describe('expenseCalculation', () => {
 	it('describes one-time, nightly and per-item costs', () => {
 		expect(expenseCalculation(expense({ unitPrice: 120, basis: 'once' }), 'USD')).toContain(
-			'one-time'
+			'sekali'
 		);
 		expect(
 			expenseCalculation(expense({ unitPrice: 100, basis: 'night', quantity: 2 }), 'USD')
-		).toContain('× 2 nights');
+		).toContain('× 2 malam');
 		expect(
 			expenseCalculation(expense({ unitPrice: 10, basis: 'item', quantity: 3 }), 'USD')
-		).toContain('× 3 items');
+		).toContain('× 3 item');
 	});
 
 	it('prompts for a missing price', () => {
-		expect(expenseCalculation(expense({ unitPrice: null }), 'USD')).toBe('Add price');
+		expect(expenseCalculation(expense({ unitPrice: null }), 'USD')).toBe('Tambah harga');
 	});
 });
 
@@ -161,7 +161,7 @@ describe('buildInsights', () => {
 		const insights = buildInsights(trip(), expenses, plannedTotal(expenses));
 
 		expect(insights[0]).toMatchObject({ id: 'under', tone: 'success' });
-		expect(insights[0].text).toContain('600.00');
+		expect(insights[0].text).toContain('600,00');
 		expect(insights.some((insight) => insight.id === 'biggest')).toBe(true);
 		expect(insights.some((insight) => insight.id === 'daily')).toBe(true);
 	});

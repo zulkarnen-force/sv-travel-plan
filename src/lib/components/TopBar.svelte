@@ -41,25 +41,25 @@
 		link.click();
 		link.remove();
 		URL.revokeObjectURL(url);
-		toast.show('Trip exported as JSON.');
+		toast.show('Trip udah diekspor ke JSON');
 	}
 
 	const menuItems: ActionItem[] = [
 		{
-			label: 'Edit trip',
-			description: 'Name, dates, purpose and note',
+			label: 'Ubah trip',
+			description: 'Nama, tanggal, tujuan, dan catatan',
 			icon: Pencil,
 			onselect: () => (editOpen = true)
 		},
 		{
-			label: 'Export trip',
-			description: 'Download a private JSON backup',
+			label: 'Ekspor trip',
+			description: 'Unduh salinan JSON privat',
 			icon: Download,
 			onselect: exportTrip
 		},
 		{
-			label: 'Delete trip',
-			description: 'Remove it from this device',
+			label: 'Hapus trip',
+			description: 'Hilang dari perangkat ini',
 			icon: Trash2,
 			danger: true,
 			onselect: () => (deleteOpen = true)
@@ -77,19 +77,19 @@
 		editOpen = false;
 
 		if (moved > 0) {
-			toast.show(`${moved} ${moved === 1 ? 'entry' : 'entries'} moved to Unscheduled.`, {
-				label: 'Review',
+			toast.show(`${moved} kegiatan dipindah ke Belum terjadwal`, {
+				label: 'Lihat',
 				run: () => goto(resolve('/trip/itinerary'))
 			});
 		} else {
-			toast.show('Trip updated.');
+			toast.show('Trip udah diupdate');
 		}
 	}
 
 	function deleteTrip() {
 		app.deleteTrip();
 		deleteOpen = false;
-		toast.show('Trip deleted.');
+		toast.show('Trip udah dihapus');
 		goto(resolve('/'), { replace: true });
 	}
 </script>
@@ -108,7 +108,7 @@
 		<button
 			type="button"
 			class="grid h-11 w-11 shrink-0 place-items-center rounded-full text-ink transition hover:bg-surface focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none"
-			aria-label="Trip menu"
+			aria-label="Menu trip"
 			aria-haspopup="dialog"
 			onclick={() => (menuOpen = true)}
 		>
@@ -123,18 +123,22 @@
 			<CalendarDays size={14} strokeWidth={1.75} />
 			{formatRange(trip.startDate, trip.endDate)}
 		</span>
-		<span class="text-[11px] text-muted">{days} {days === 1 ? 'day' : 'days'}</span>
+		<span class="text-[11px] text-muted">{days} hari</span>
 	</div>
 </header>
 
 <ActionSheet
 	bind:open={menuOpen}
 	title="Trip"
-	description="Everything stays on this device."
+	description="Semua data cuma tersimpan di perangkat ini."
 	items={menuItems}
 />
 
-<Drawer bind:open={editOpen} title="Edit trip" description="Changes save on this device only.">
+<Drawer
+	bind:open={editOpen}
+	title="Ubah trip"
+	description="Perubahan cuma disimpan di perangkat ini."
+>
 	<TripEditForm
 		name={trip.name}
 		startDate={trip.startDate}
@@ -147,13 +151,14 @@
 
 <Drawer
 	bind:open={deleteOpen}
-	title="Delete this trip?"
-	description="This removes the itinerary, packing list and budget from this device. It cannot be undone."
+	title="Hapus trip ini?"
+	description="Rencana, daftar bawaan, dan budget bakal hilang dari perangkat ini. Nggak bisa dibalikin."
 >
 	{#snippet footer()}
 		<div class="flex gap-2">
-			<Button variant="secondary" fullWidth onclick={() => (deleteOpen = false)}>Keep trip</Button>
-			<Button variant="critical" fullWidth onclick={deleteTrip}>Delete</Button>
+			<Button variant="secondary" fullWidth onclick={() => (deleteOpen = false)}>Simpan trip</Button
+			>
+			<Button variant="critical" fullWidth onclick={deleteTrip}>Ya, hapus</Button>
 		</div>
 	{/snippet}
 </Drawer>

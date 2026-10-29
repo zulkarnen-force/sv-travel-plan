@@ -93,7 +93,7 @@ class AppState {
 					/* backup is best effort */
 				}
 				this.storageError =
-					'Your saved trip could not be read. A copy was kept on this device; you can start a new trip.';
+					'Data trip kamu nggak bisa dibaca. Salinannya tetap disimpan di perangkat ini, jadi kamu bisa mulai trip baru.';
 				this.ready = true;
 				return;
 			}
@@ -107,7 +107,7 @@ class AppState {
 			this.draft = data.draft;
 		} catch {
 			this.storageError =
-				'Storage is unavailable in this browser. Your changes will stay in memory for this session.';
+				'Penyimpanan nggak tersedia di browser ini. Perubahan kamu cuma bertahan selama sesi ini.';
 		} finally {
 			this.ready = true;
 		}
@@ -147,7 +147,7 @@ class AppState {
 			this.storageError = null;
 		} catch {
 			this.storageError =
-				'Your browser could not save changes. Keep this tab open, or free up storage space.';
+				'Browser kamu nggak bisa nyimpen perubahan. Biarin tab ini tetap terbuka, atau kosongin ruang penyimpanan.';
 		}
 	}
 
@@ -179,7 +179,7 @@ class AppState {
 		const category: PrepCategory = {
 			id: uid(),
 			tripId: trip.id,
-			name: 'Clothing',
+			name: 'Pakaian',
 			icon: 'shirt',
 			order: 0
 		};
@@ -387,7 +387,10 @@ class AppState {
 
 	clothingCategory(): PrepCategory | null {
 		return (
-			this.categories.find((category) => category.name === 'Clothing') ?? this.categories[0] ?? null
+			this.categories.find((category) => category.icon === 'shirt') ??
+			this.categories.find((category) => category.name === 'Pakaian') ??
+			this.categories[0] ??
+			null
 		);
 	}
 
@@ -405,7 +408,7 @@ class AppState {
 			category = {
 				id: uid(),
 				tripId: this.trip.id,
-				name: 'Clothing',
+				name: 'Pakaian',
 				icon: 'shirt',
 				order: this.categories.length
 			};

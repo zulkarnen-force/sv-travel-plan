@@ -26,7 +26,7 @@
 
 	const today = todayISO();
 	const cells = $derived(buildMonthGrid(viewYear, viewMonth));
-	const weekdays = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+	const weekdays = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
 
 	function move(delta: number) {
 		const next = shiftMonth(viewYear, viewMonth, delta);
@@ -45,13 +45,13 @@
 		}
 
 		if (iso < start) {
-			error = 'Choose a date on or after your start date.';
+			error = 'Pilih tanggal yang sama atau setelah tanggal mulai.';
 			return;
 		}
 
 		const length = daysBetween(start, iso);
 		if (length > 60) {
-			error = `That is ${length} days. Trips can be up to 60 days.`;
+			error = `Itu ${length} hari. Trip maksimal 60 hari.`;
 			return;
 		}
 
@@ -71,12 +71,12 @@
 	}
 </script>
 
-<div role="group" aria-label="Trip dates" class="rounded-[28px] bg-surface p-4">
+<div role="group" aria-label="Tanggal trip" class="rounded-[28px] bg-surface p-4">
 	<div class="flex items-center justify-between">
 		<button
 			type="button"
 			class="grid h-11 w-11 place-items-center rounded-full text-ink transition hover:bg-card focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none"
-			aria-label="Previous month"
+			aria-label="Bulan sebelumnya"
 			onclick={() => move(-1)}
 		>
 			<ChevronLeft size={20} strokeWidth={1.75} />
@@ -85,7 +85,7 @@
 		<button
 			type="button"
 			class="grid h-11 w-11 place-items-center rounded-full text-ink transition hover:bg-card focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none"
-			aria-label="Next month"
+			aria-label="Bulan berikutnya"
 			onclick={() => move(1)}
 		>
 			<ChevronRight size={20} strokeWidth={1.75} />
@@ -119,8 +119,8 @@
 				aria-pressed={isSelected(cell.iso)}
 				aria-current={cell.iso === today ? 'date' : undefined}
 				aria-label={`${formatLongDate(cell.iso)}${
-					cell.iso === today ? ', today' : ''
-				}${isSelected(cell.iso) ? ', selected' : ''}`}
+					cell.iso === today ? ', hari ini' : ''
+				}${isSelected(cell.iso) ? ', dipilih' : ''}`}
 				onclick={() => pick(cell.iso)}
 			>
 				{cell.day}
