@@ -1,5 +1,5 @@
 import { browser } from '$app/env';
-import { buildSuggestions, detectCurrency, PURPOSE_RULES, STARTER_EXPENSES } from './config';
+import { buildSuggestions, DEFAULT_CURRENCY, PURPOSE_RULES, STARTER_EXPENSES } from './config';
 import { snapshotSchema } from './schemas';
 import type {
 	AppSnapshot,
@@ -167,7 +167,7 @@ class AppState {
 			endDate: input.endDate,
 			purpose: input.purpose,
 			purposeNote: input.purposeNote.trim(),
-			currency: detectCurrency(),
+			currency: DEFAULT_CURRENCY,
 			budgetTotal: null,
 			createdAt: new Date().toISOString(),
 			activeDay: 0,

@@ -187,6 +187,9 @@ export const STARTER_EXPENSES: StarterExpenseMeta[] = [
 /* Currency                                                            */
 /* ------------------------------------------------------------------ */
 
+/** Rupiah is the default for every new trip. */
+export const DEFAULT_CURRENCY = 'IDR';
+
 export const CURRENCIES = [
 	'USD',
 	'EUR',
@@ -241,6 +244,21 @@ export const ZERO_DECIMAL_CURRENCIES = new Set([
 	'XPF'
 ]);
 
+/** Short symbol used next to a currency code, e.g. "Rp" for IDR. */
+export function currencySymbol(currency: string, locale = 'id-ID'): string {
+	const code = currency.toUpperCase();
+	try {
+		const parts = new Intl.NumberFormat(locale, {
+			style: 'currency',
+			currency: code,
+			currencyDisplay: 'narrowSymbol'
+		}).formatToParts(0);
+		return parts.find((part) => part.type === 'currency')?.value ?? code;
+	} catch {
+		return code;
+	}
+}
+
 const REGION_CURRENCY: Record<string, string> = {
 	US: 'USD',
 	GB: 'GBP',
@@ -290,5 +308,5 @@ export function detectCurrency(language?: string): string {
 	const parts = tag.replace('_', '-').split('-');
 	const region = parts.find((part) => part.length === 2 && part === part.toUpperCase());
 	if (region && REGION_CURRENCY[region]) return REGION_CURRENCY[region];
-	return 'IDR';
+	return DEFAULT_CURRENCY;
 }

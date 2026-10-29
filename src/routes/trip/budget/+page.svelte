@@ -1,6 +1,19 @@
 <script lang="ts">
-	import { AlertTriangle, CheckCircle2, Info, Pencil, Wallet, X } from '@lucide/svelte';
-	import { CURRENCIES, EXPENSE_CATEGORIES, expenseCategoryLabel } from '#lib/config';
+	import {
+		AlertTriangle,
+		CheckCircle2,
+		ChevronDown,
+		Info,
+		Pencil,
+		Wallet,
+		X
+	} from '@lucide/svelte';
+	import {
+		CURRENCIES,
+		currencySymbol,
+		EXPENSE_CATEGORIES,
+		expenseCategoryLabel
+	} from '#lib/config';
 	import { app } from '#lib/state.svelte';
 	import type { ExpenseInput } from '#lib/state.svelte';
 	import { toast } from '#lib/toast.svelte';
@@ -153,10 +166,16 @@
 					Masih muat nggak?
 				</h1>
 			</div>
-			<label class="shrink-0">
+			<label class="relative shrink-0">
 				<span class="sr-only">Mata uang</span>
+				<span
+					class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-xs font-semibold text-ink"
+					aria-hidden="true"
+				>
+					{currencySymbol(trip.currency)}
+				</span>
 				<select
-					class="min-h-11 rounded-full border border-line bg-card px-3 text-xs font-medium text-ink focus:border-ink focus:ring-2 focus:ring-lime/60 focus:outline-none"
+					class="min-h-11 appearance-none rounded-full border border-line bg-card py-0 pr-8 pl-9 text-xs font-medium text-ink focus:border-ink focus:ring-2 focus:ring-lime/60 focus:outline-none"
 					value={trip.currency}
 					onchange={(event) => app.setCurrency(event.currentTarget.value)}
 				>
@@ -164,6 +183,12 @@
 						<option value={currency}>{currency}</option>
 					{/each}
 				</select>
+				<ChevronDown
+					size={14}
+					strokeWidth={2}
+					class="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-muted"
+					aria-hidden="true"
+				/>
 			</label>
 		</header>
 
@@ -407,7 +432,7 @@
 				saveBudget();
 			}}
 		>
-			<Label for="budget-amount">Budget ({trip.currency})</Label>
+			<Label for="budget-amount">Budget ({currencySymbol(trip.currency)})</Label>
 			<Input
 				id="budget-amount"
 				bind:value={budgetInput}

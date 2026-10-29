@@ -1,6 +1,6 @@
 <script lang="ts">
 	import clsx from 'clsx';
-	import { EXPENSE_BASES, EXPENSE_CATEGORIES } from '#lib/config';
+	import { currencySymbol, EXPENSE_BASES, EXPENSE_CATEGORIES } from '#lib/config';
 	import type { ExpenseInput } from '#lib/state.svelte';
 	import type { Expense, ExpenseBasis, ExpenseCategoryId, Trip } from '#lib/types';
 	import { autoQuantity } from '#lib/utils/budget';
@@ -135,7 +135,7 @@
 		</div>
 
 		<div>
-			<Label for="expense-price">Harga satuan ({trip.currency})</Label>
+			<Label for="expense-price">Harga satuan ({currencySymbol(trip.currency)})</Label>
 			<Input
 				id="expense-price"
 				bind:value={priceInput}

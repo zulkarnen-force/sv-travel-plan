@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildSuggestions, purposeLabel } from './config';
+import { buildSuggestions, currencySymbol, DEFAULT_CURRENCY, purposeLabel } from './config';
 
 function quantityOf(suggestions: ReturnType<typeof buildSuggestions>, name: string): number {
 	return suggestions.find((suggestion) => suggestion.name === name)?.quantity ?? 0;
@@ -54,5 +54,16 @@ describe('purposeLabel', () => {
 	it('returns a readable label for each purpose', () => {
 		expect(purposeLabel('hiking')).toBe('Naik gunung');
 		expect(purposeLabel('city')).toBe('Jalan-jalan kota');
+	});
+});
+
+describe('currency', () => {
+	it('defaults new trips to rupiah', () => {
+		expect(DEFAULT_CURRENCY).toBe('IDR');
+	});
+
+	it('uses the rupiah symbol for IDR', () => {
+		expect(currencySymbol('IDR')).toBe('Rp');
+		expect(currencySymbol('idr')).toBe('Rp');
 	});
 });
