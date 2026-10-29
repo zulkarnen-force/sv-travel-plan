@@ -1,9 +1,8 @@
 import { enhancedImages } from '@sveltejs/enhanced-img';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
-import adapter from '@sveltejs/adapter-auto';
 import { sveltekit } from '@sveltejs/kit/vite';
-
+import adapter from '@sveltejs/adapter-cloudflare';
 export default defineConfig({
 	plugins: [
 		enhancedImages(),
