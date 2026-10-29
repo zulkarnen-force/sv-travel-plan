@@ -1,6 +1,6 @@
 // wrangler.jsonc
 {
-  "name": "Trip Pack",
+  "name": "trip-pack",
   "main": ".svelte-kit/cloudflare/_worker.js",
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat"],
