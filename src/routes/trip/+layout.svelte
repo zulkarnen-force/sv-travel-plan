@@ -21,7 +21,9 @@
 	<div class="mx-auto flex h-dvh w-full max-w-[480px] flex-col border-x border-line bg-canvas">
 		<TopBar {trip} />
 		<StorageNotice />
-		<main class="min-h-0 flex-1 overflow-y-auto overscroll-contain">{@render children()}</main>
+		<main class="no-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-contain">
+			{@render children()}
+		</main>
 		<BottomNav />
 	</div>
 {:else}

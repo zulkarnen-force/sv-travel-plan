@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tick } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { prefersReducedMotion } from 'svelte/motion';
 	import { fly } from 'svelte/transition';
 	import {
@@ -119,6 +119,13 @@
 		return () => {
 			if (highlightTimer) clearTimeout(highlightTimer);
 		};
+	});
+
+	// The home page can ask us to open the add drawer for the day it links to.
+	onMount(() => {
+		if (!app.trip) return;
+		if (!app.consumeItineraryAdd()) return;
+		openAdd();
 	});
 
 	function changeDay(next: number) {
@@ -403,7 +410,7 @@
 									<form class="mt-4 space-y-2" onsubmit={quickAdd}>
 										<Input
 											bind:value={quickTitle}
-											placeholder="Kunjungi candi"
+											placeholder="Main ke Candi Borobudur"
 											maxlength={120}
 											autofocus
 											aria-label="Judul kegiatan"
@@ -421,13 +428,13 @@
 												class="flex-1"
 												disabled={!quickTitle.trim()}
 											>
-												Tambah kegiatan
+												Tambah
 											</Button>
 										</div>
 									</form>
 									<button
 										type="button"
-										class="mt-2 min-h-11 text-sm text-on-lime underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-on-lime focus-visible:outline-none"
+										class="mt-2 min-h-11 bg-lime text-sm text-on-lime underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-on-lime focus-visible:outline-none"
 										onclick={openAdd}
 									>
 										Isi detail
@@ -436,7 +443,7 @@
 							{:else if entries.length === 0}
 								<Card variant="surface" padding="lg" class="text-center">
 									<p class="text-sm text-muted">Belum ada rencana buat Hari {activeDay + 1}.</p>
-									<Button variant="outline" class="mt-3" onclick={openAdd}>Tambah kegiatan</Button>
+									<Button variant="outline" class="mt-3" onclick={openAdd}>Tambah</Button>
 								</Card>
 							{:else}
 								<div class="space-y-2">

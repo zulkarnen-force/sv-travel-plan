@@ -64,6 +64,10 @@ class AppState {
 	draft = $state<TripDraft | null>(null);
 	storageError = $state<string | null>(null);
 	ready = $state(false);
+	/** One-shot request from another screen to open the budget editor. */
+	pendingBudgetEdit = $state(false);
+	/** One-shot request from another screen to open the add-itinerary drawer. */
+	pendingItineraryAdd = $state(false);
 
 	#saveTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -276,6 +280,26 @@ class AppState {
 		if (!this.trip) return;
 		this.trip.budgetTotal = value;
 		this.persist();
+	}
+
+	requestBudgetEdit() {
+		this.pendingBudgetEdit = true;
+	}
+
+	consumeBudgetEdit(): boolean {
+		const pending = this.pendingBudgetEdit;
+		this.pendingBudgetEdit = false;
+		return pending;
+	}
+
+	requestItineraryAdd() {
+		this.pendingItineraryAdd = true;
+	}
+
+	consumeItineraryAdd(): boolean {
+		const pending = this.pendingItineraryAdd;
+		this.pendingItineraryAdd = false;
+		return pending;
 	}
 
 	/* ---------------------------------------------------------------- */

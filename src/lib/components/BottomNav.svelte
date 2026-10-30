@@ -1,23 +1,24 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
-	import { Backpack, CalendarDays, Wallet } from '@lucide/svelte';
+	import { Backpack, CalendarDays, House, Wallet } from '@lucide/svelte';
 	import clsx from 'clsx';
 	import { untrack } from 'svelte';
 
 	const tabs = [
-		{ href: '/trip/itinerary', label: 'Rencana', icon: CalendarDays },
-		{ href: '/trip/preps', label: 'Bawaan', icon: Backpack },
-		{ href: '/trip/budget', label: 'Budget', icon: Wallet }
+		{ href: '/trip', label: 'Beranda', icon: House, exact: true },
+		{ href: '/trip/itinerary', label: 'Rencana', icon: CalendarDays, exact: false },
+		{ href: '/trip/preps', label: 'Bawaan', icon: Backpack, exact: false },
+		{ href: '/trip/budget', label: 'Budget', icon: Wallet, exact: false }
 	] as const;
 
 	const path = $derived(page.url.pathname);
 
-	function isActive(href: string): boolean {
-		return path === href || path.startsWith(`${href}/`);
+	function isActive(href: string, exact: boolean): boolean {
+		return exact ? path === href : path === href || path.startsWith(`${href}/`);
 	}
 
-	const activeIndex = $derived(tabs.findIndex((tab) => isActive(tab.href)));
+	const activeIndex = $derived(tabs.findIndex((tab) => isActive(tab.href, tab.exact)));
 	// Keeps the pill on the first tab when no tab matches, before it fades out.
 	const tabPosition = $derived(Math.max(activeIndex, 0));
 
@@ -75,13 +76,13 @@
 	style:padding-bottom="calc(0.5rem + env(safe-area-inset-bottom))"
 	aria-label="Bagian trip"
 >
-	<div class="relative grid grid-cols-3">
+	<div class="relative grid grid-cols-4">
 		<!-- The liquid pill lives behind the links and slides between them. -->
 		<div
 			{@attach slideIndicator}
 			aria-hidden="true"
 			class={clsx(
-				'pointer-events-none absolute inset-y-0 left-0 w-1/3 p-0.5 transition-opacity duration-200',
+				'pointer-events-none absolute inset-y-0 left-0 w-1/4 p-0.5 transition-opacity duration-200',
 				activeIndex === -1 && 'opacity-0'
 			)}
 			style:transform={`translateX(${tabPosition * 100}%)`}
@@ -91,7 +92,7 @@
 
 		{#each tabs as tab (tab.href)}
 			{@const Icon = tab.icon}
-			{@const active = isActive(tab.href)}
+			{@const active = isActive(tab.href, tab.exact)}
 			<a
 				href={resolve(tab.href)}
 				aria-current={active ? 'page' : undefined}

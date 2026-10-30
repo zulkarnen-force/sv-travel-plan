@@ -8,6 +8,7 @@
 		Wallet,
 		X
 	} from '@lucide/svelte';
+	import { onMount } from 'svelte';
 	import {
 		CURRENCIES,
 		currencySymbol,
@@ -78,6 +79,13 @@
 		if (app.ready && app.trip && !app.trip.budgetInitialized) {
 			app.initBudget();
 		}
+	});
+
+	// The home page can ask the budget editor to open as soon as we land here.
+	onMount(() => {
+		if (!app.ready || !app.trip) return;
+		if (!app.consumeBudgetEdit()) return;
+		openBudgetEditor();
 	});
 
 	function toggleFilter(id: string | null) {
@@ -258,7 +266,7 @@
 			<Card variant="surface" padding="lg">
 				<div class="flex items-center justify-between gap-3">
 					<p class="eyebrow">Per kategori</p>
-					{#if filter}
+					{#if filter}Per kategori
 						<button
 							type="button"
 							class="min-h-11 rounded-full px-3 text-xs font-medium text-ink underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none"

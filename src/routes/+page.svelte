@@ -48,10 +48,10 @@
 				: 'Ini ngaruh ke daftar baju. Semua masih bisa diedit.'
 	);
 
-	const examples = ['Bali sama temen', 'Kerja di Oslo', 'Naik gunung di Dolomites'];
+	const examples = ['Jalan-jalan ke Bali', 'Kerja di Jogja', 'Naik gunung Merbabu'];
 
 	$effect(() => {
-		if (app.trip) goto(resolve('/trip/itinerary'), { replace: true });
+		if (app.trip) goto(resolve('/trip'), { replace: true });
 	});
 
 	$effect(() => {
@@ -81,7 +81,7 @@
 			purpose,
 			purposeNote: purposeNote.trim()
 		});
-		goto(resolve('/trip/itinerary'), { replace: true });
+		goto(resolve('/trip'), { replace: true });
 	}
 </script>
 
@@ -140,7 +140,7 @@
 							bind:value={name}
 							maxlength={60}
 							autocomplete="off"
-							placeholder="Bali sama temen"
+							placeholder="Trip ke Bali"
 							autofocus
 							class="mt-2"
 							aria-describedby={name.length > 0 && !nameValid

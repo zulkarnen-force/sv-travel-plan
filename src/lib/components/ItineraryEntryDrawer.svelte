@@ -67,7 +67,7 @@
 	{#snippet footer()}
 		<div class="space-y-1">
 			<Button type="submit" form={formId} fullWidth size="lg" disabled={!valid}>
-				{entry ? 'Simpan perubahan' : 'Tambah kegiatan'}
+				{entry ? 'Simpan perubahan' : 'Tambah'}
 			</Button>
 			{#if entry && ondelete}
 				<Button variant="danger" fullWidth onclick={remove}>Hapus kegiatan</Button>
@@ -82,7 +82,7 @@
 				id="entry-title"
 				bind:value={title}
 				maxlength={120}
-				placeholder="Kunjungi candi"
+				placeholder="Main ke Candi Borobudur"
 				autofocus
 				class="mt-2"
 			/>
