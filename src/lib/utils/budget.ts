@@ -103,7 +103,7 @@ export function buildInsights(
 	if (trip.budgetTotal === null) {
 		insights.push({
 			id: 'no-budget',
-			text: 'Atur total budget dulu biar kelihatan muat atau nggak.',
+			text: 'Atur total budget dulu biar kelihatan aman atau nggak.',
 			tone: 'neutral'
 		});
 	} else if (over && trip.budgetTotal !== null) {
@@ -118,7 +118,10 @@ export function buildInsights(
 	} else if (trip.budgetTotal !== null) {
 		insights.push({
 			id: 'under',
-			text: `Masih ada ${money(trip.budgetTotal - planned)} buat biaya ekstra.`,
+			text:
+				trip.budgetTotal - planned == 0
+					? `Kamu sudah mencapai budget.`
+					: `Masih ada ${money(trip.budgetTotal - planned)} buat biaya ekstra.`,
 			tone: 'success'
 		});
 	}
