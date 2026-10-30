@@ -68,7 +68,7 @@
 			? `Hari ${activeDay + 2} →`
 			: allDaysPlanned
 				? 'Semua hari udah terisi'
-				: 'Balik ke hari kosong'
+				: ''
 	);
 	const nextDisabled = $derived(activeDay >= dates.length - 1 && allDaysPlanned);
 
@@ -500,12 +500,12 @@
 									<div
 										class="mt-3 flex items-center justify-between gap-3 rounded-[18px] bg-lime px-4 py-2.5 text-on-lime"
 									>
-										<p class="text-xs leading-snug font-medium text-ink">
+										<p class="bg-lime text-xs leading-snug font-medium text-on-lime">
 											Hari {activeDay + 1} udah dimulai. Tambah lagi, atau lanjut.
 										</p>
 										<button
 											type="button"
-											class="min-h-11 shrink-0 text-xs font-medium text-on-lime underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-on-lime focus-visible:outline-none"
+											class="min-h-11 shrink-0 text-xs font-medium text-black underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-on-lime focus-visible:outline-none"
 											onclick={() => changeDay(activeDay + 1)}
 										>
 											Hari {activeDay + 2} →
@@ -536,7 +536,7 @@
 
 			<div class="mt-6">
 				<Button fullWidth size="lg" onclick={openAdd}>Tambah ke Hari {activeDay + 1}</Button>
-				<div class="mt-2 grid grid-cols-2 gap-2">
+				<div class={`mt-2 grid gap-2 ${nextLabel !== '' ? 'grid-cols-2' : 'grid-cols-1'}`}>
 					<Button
 						variant="secondary"
 						disabled={activeDay === 0}
@@ -544,7 +544,12 @@
 					>
 						← {previousLabel}
 					</Button>
-					<Button variant="secondary" disabled={nextDisabled} onclick={onNext}>{nextLabel}</Button>
+
+					{#if nextLabel !== ''}
+						<Button variant="secondary" disabled={nextDisabled} onclick={onNext}>
+							{nextLabel}
+						</Button>
+					{/if}
 				</div>
 			</div>
 		</div>

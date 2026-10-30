@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import { ArrowRight, Plus, Shirt, Sparkles } from '@lucide/svelte';
+	import { ArrowRight, Plus, Sparkles } from '@lucide/svelte';
 	import { LAUNDRY_TIP } from '#lib/config';
 	import { app } from '#lib/state.svelte';
 	import { toast } from '#lib/toast.svelte';
 	import { daysBetween } from '#lib/utils/date';
+	import PrepCategoryDrawer from '#lib/components/PrepCategoryDrawer.svelte';
+	import { prepCategoryIcon } from '#lib/components/prep-icons';
 	import ProgressRing from '#lib/components/ProgressRing.svelte';
-	import Badge from '#lib/components/ui/Badge.svelte';
 	import Button from '#lib/components/ui/Button.svelte';
 	import Card from '#lib/components/ui/Card.svelte';
 
@@ -17,6 +18,9 @@
 	const packedItems = $derived(app.items.filter((item) => item.packed).length);
 	const days = $derived(trip ? daysBetween(trip.startDate, trip.endDate) : 0);
 	const hasLaundry = $derived(app.expenses.some((expense) => expense.category === 'laundry'));
+	const existingCategoryNames = $derived(categories.map((category) => category.name));
+
+	let addCategoryOpen = $state(false);
 
 	function applySuggestions() {
 		const result = app.applySuggestions();
@@ -41,6 +45,18 @@
 			run: () => goto(resolve('/trip/budget'))
 		});
 	}
+
+	function saveCategory(name: string, icon: string) {
+		const category = app.addPrepCategory(name, icon);
+		if (!category) {
+			toast.show('Kategori dengan nama itu udah ada');
+			return;
+		}
+		toast.show(`Kategori ${category.name} ditambah`, {
+			label: 'Isi',
+			run: () => goto(resolve('/trip/preps/[category]', { category: category.id }))
+		});
+	}
 </script>
 
 {#if trip}
@@ -48,7 +64,7 @@
 		<header>
 			<p class="eyebrow">Bawaan</p>
 			<h1 class="mt-1 text-[28px] leading-tight font-medium tracking-[-0.03em] text-ink">
-				Nggak ada yang ketinggalan
+				Jangan lupa bawa apa aja
 			</h1>
 			<p class="mt-1 text-sm text-muted">
 				{packedItems} dari {totalItems} udah dibawa
@@ -79,6 +95,7 @@
 			{#each categories as category (category.id)}
 				{@const items = app.itemsForCategory(category.id)}
 				{@const packed = items.filter((item) => item.packed).length}
+				{@const Icon = prepCategoryIcon(category)}
 				<a
 					href={resolve('/trip/preps/[category]', { category: category.id })}
 					class="flex items-center gap-3 rounded-[28px] bg-surface p-4 transition hover:bg-line/40 focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none"
@@ -87,7 +104,7 @@
 						class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-card text-ink"
 						aria-hidden="true"
 					>
-						<Shirt size={19} strokeWidth={1.75} />
+						<Icon size={19} strokeWidth={1.75} />
 					</span>
 					<span class="min-w-0 flex-1">
 						<span class="block text-[17px] leading-tight font-medium text-ink">{category.name}</span
@@ -103,9 +120,10 @@
 				</a>
 			{/each}
 
-			<div
-				class="flex items-center gap-3 rounded-[28px] border border-dashed border-line p-4"
-				aria-label="Tambah kategori, fitur lanjutan"
+			<button
+				type="button"
+				class="flex w-full items-center gap-3 rounded-[28px] border border-dashed border-line p-4 text-left transition hover:bg-surface focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none"
+				onclick={() => (addCategoryOpen = true)}
 			>
 				<span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-surface text-muted">
 					<Plus size={19} strokeWidth={1.75} />
@@ -114,8 +132,7 @@
 					<span class="block text-[15px] font-medium text-ink">Tambah kategori</span>
 					<span class="text-xs text-muted">Perlengkapan mandi, dokumen, elektronik</span>
 				</span>
-				<Badge variant="outline">P1</Badge>
-			</div>
+			</button>
 		</div>
 
 		{#if days > 7}
@@ -139,3 +156,9 @@
 		{/if}
 	</div>
 {/if}
+
+<PrepCategoryDrawer
+	bind:open={addCategoryOpen}
+	existingNames={existingCategoryNames}
+	onsave={saveCategory}
+/>

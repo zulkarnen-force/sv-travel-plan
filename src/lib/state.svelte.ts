@@ -401,6 +401,29 @@ class AppState {
 			.sort((a, b) => a.order - b.order);
 	}
 
+	addPrepCategory(name: string, icon: string): PrepCategory | null {
+		if (!this.trip) return null;
+		const trimmed = name.trim();
+		if (!trimmed) return null;
+		const exists = this.categories.some(
+			(category) => category.name.toLowerCase() === trimmed.toLowerCase()
+		);
+		if (exists) return null;
+
+		const category: PrepCategory = {
+			id: uid(),
+			tripId: this.trip.id,
+			name: trimmed,
+			icon: icon || 'backpack',
+			order: this.categories.length
+				? Math.max(...this.categories.map((candidate) => candidate.order)) + 1
+				: 0
+		};
+		this.categories.push(category);
+		this.persist();
+		return category;
+	}
+
 	applySuggestions(): { added: number; updated: number } {
 		if (!this.trip) return { added: 0, updated: 0 };
 		let category = this.clothingCategory();
