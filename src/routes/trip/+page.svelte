@@ -174,12 +174,12 @@
 		}
 		if (missing > 0) {
 			return {
-				text: `${missing} biaya belum ada angka.`,
+				text: `${missing} item belum dibudget.`,
 				tone: 'warning' as Tone
 			};
 		}
 		if (planned === 0) {
-			return { text: 'Belum ada angka pengeluaran.', tone: 'neutral' as Tone };
+			return { text: 'Belum ada pengeluaran.', tone: 'neutral' as Tone };
 		}
 		return {
 			text: `Masih ada ${formatMoney((budget ?? 0) - planned, currency)} buat biaya ekstra.`,
@@ -270,7 +270,7 @@
 		if (missing > 0 && hasBudget) {
 			list.push({
 				id: 'missing',
-				title: `${missing} biaya belum ada angka`,
+				title: `${missing} biaya belum dibudget`,
 				detail: 'Lengkapi biar totalnya akurat.',
 				cta: 'Lengkapi',
 				icon: CircleDollarSign,
